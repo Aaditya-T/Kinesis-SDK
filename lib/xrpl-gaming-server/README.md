@@ -33,6 +33,8 @@ docker compose up -d
 
 The server is now listening on `http://localhost:3000`.
 
+> ⚠️ **Before deploying anywhere except your laptop**, change the default Postgres credentials in `docker-compose.yml` (`POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`) and update `DATABASE_URL` accordingly. The defaults (`xrpl` / `xrpl`) are convenient for local dev only and must not be used in production or on any host reachable from the public internet.
+
 ### Run without docker
 
 ```bash
