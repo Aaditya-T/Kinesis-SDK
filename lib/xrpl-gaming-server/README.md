@@ -235,7 +235,7 @@ curl -X POST http://localhost:3000/nft/mint \
 
 ## Programmatic use (TypeScript)
 
-If you want to embed the server inside a larger Node service:
+If you want to embed the server inside a larger Node service, construct and **`await sdk.init()` yourself** before passing the SDK in. `createServer` deliberately accepts a pre-initialized SDK so embedders can share a single SDK instance with their own background workers, ledger watchers, etc.
 
 ```ts
 import { createServer } from "@workspace/xrpl-gaming-server";
@@ -248,11 +248,13 @@ const sdk = new XRPLGamingSDK({
   db: new PostgresAdapter({ connectionString: process.env.DATABASE_URL! }),
   ipfs: new PinataAdapter({ jwt: process.env.PINATA_JWT! }),
 });
-await sdk.init();
+await sdk.init();   // <-- required before createServer
 
 const app = createServer({ sdk, apiKey: process.env.SERVER_API_KEY! });
 app.listen(3000);
 ```
+
+The CLI shown earlier handles all of this internally from environment variables — that is the recommended path for studios who just want to run the server.
 
 ## Out of scope (for now)
 
