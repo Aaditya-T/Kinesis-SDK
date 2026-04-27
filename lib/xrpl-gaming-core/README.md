@@ -80,6 +80,25 @@ const sdk = new XRPLGamingSDK({ managedApiKey: "xg_live_xxx" });
 - `update()` issues an `NFTokenModify` transaction that replaces the URI with a new IPFS pointer.
 - Transfers use `NFTokenCreateOffer` (sell offer at 0 drops by default) targeted to the destination wallet, which must accept the offer to complete the transfer.
 
+## Operation ordering & consistency model
+
+`mint()` and `update()` perform their XRPL transaction first and then write/patch the DB record:
+
+1. `ipfs.uploadJson(metadata)` — pin metadata
+2. `client.submitAndWait(NFTokenMint | NFTokenModify)` — settle on-chain
+3. `db.saveNft(...)` / `db.updateNft(...)` — persist the authoritative on-chain result (token id, URI, timestamps)
+
+This guarantees we never advertise a DB row that points at a non-existent or out-of-date ledger object. The trade-off is that if the DB write fails *after* a successful XRPL settlement, you can rebuild the row by reading `account_nfts` for the issuer wallet and replaying it through `db.saveNft`. For `mint({ destination })`, the DB row is written immediately after the mint succeeds and *before* the optional sell-offer creation, so a failed offer never orphans a minted NFT.
+
+## Transfer is offer-based — you must reconcile
+
+`sdk.nft.transfer()` does **not** flip ownership immediately. It issues an `NFTokenCreateOffer` (sell offer) targeted at the destination wallet and returns the `offerId`. Until the destination wallet calls `NFTokenAcceptOffer` on the XRPL, the issuer still owns the token. The DB row reflects this with two columns:
+
+- `pendingOfferId` — the open sell offer id
+- `pendingDestination` — the intended recipient
+
+Your application is responsible for detecting acceptance (poll `account_nfts` for the destination, or subscribe to ledger events) and then calling `sdk.nft.markTransferComplete(tokenId, newOwnerAddress)` to clear the pending fields and update `ownerAddress`. Future managed-tier and server packages will provide a watcher that automates this.
+
 ## Build your own adapter
 
 Implement `IDBAdapter` or `IIPFSAdapter` for any backend you like. See `@workspace/xrpl-gaming-db-mongodb` and `@workspace/xrpl-gaming-ipfs-pinata` for reference implementations.
