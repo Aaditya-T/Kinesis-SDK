@@ -41,20 +41,24 @@ The adapter manages a single table:
 
 ```sql
 CREATE TABLE xrpl_gaming_nfts (
-  token_id        TEXT PRIMARY KEY,
-  owner_address   TEXT NOT NULL,
-  issuer_address  TEXT NOT NULL,
-  metadata_uri    TEXT NOT NULL,
-  metadata        JSONB NOT NULL,
-  player_id       TEXT,
-  collection      TEXT,
-  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  token_id            TEXT PRIMARY KEY,
+  owner_address       TEXT NOT NULL,
+  issuer_address      TEXT NOT NULL,
+  metadata_uri        TEXT NOT NULL,
+  metadata            JSONB NOT NULL,
+  player_id           TEXT,
+  collection          TEXT,
+  pending_offer_id    TEXT,        -- outstanding NFTokenCreateOffer awaiting acceptance
+  pending_destination TEXT,        -- intended recipient for the pending offer
+  created_at          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at          TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 CREATE INDEX xrpl_gaming_nfts_player_idx     ON xrpl_gaming_nfts (player_id);
 CREATE INDEX xrpl_gaming_nfts_owner_idx      ON xrpl_gaming_nfts (owner_address);
 CREATE INDEX xrpl_gaming_nfts_collection_idx ON xrpl_gaming_nfts (collection);
 ```
+
+`init()` also runs `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` for the `pending_offer_id` / `pending_destination` columns so older installations are upgraded in place.
 
 ## Sharing a pool
 

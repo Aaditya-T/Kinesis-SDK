@@ -57,6 +57,7 @@ export class NftManager {
     private readonly client: Client,
     private readonly wallet: Wallet,
     private readonly config: SelfHostedConfig,
+    private readonly assertReady: () => void = () => {},
   ) {}
 
   /**
@@ -64,6 +65,7 @@ export class NftManager {
    * also creates a 0-drops sell offer to that wallet so the player can claim.
    */
   async mint(params: MintParams): Promise<MintResult> {
+    this.assertReady();
     const transferable = params.transferable ?? true;
     const mutable = params.mutable ?? true;
 
@@ -145,6 +147,7 @@ export class NftManager {
    * at the new content.
    */
   async update(tokenId: string, params: UpdateParams): Promise<UpdateResult> {
+    this.assertReady();
     const existing = await this.config.db.getNft(tokenId);
     if (!existing) {
       throw new XrplGamingError(`NFT ${tokenId} not found in DB`);
@@ -201,6 +204,7 @@ export class NftManager {
     tokenId: string,
     params: TransferParams,
   ): Promise<TransferResult> {
+    this.assertReady();
     const existing = await this.config.db.getNft(tokenId);
     if (!existing) {
       throw new XrplGamingError(`NFT ${tokenId} not found in DB`);
@@ -230,6 +234,7 @@ export class NftManager {
     tokenId: string,
     newOwnerAddress: string,
   ): Promise<NftRecord | null> {
+    this.assertReady();
     return this.config.db.updateNft(tokenId, {
       ownerAddress: newOwnerAddress,
       pendingOfferId: null,
@@ -240,6 +245,7 @@ export class NftManager {
 
   /** Burn an NFT (issuer-owned only). */
   async burn(tokenId: string): Promise<BurnResult> {
+    this.assertReady();
     const burnTx: NFTokenBurn = {
       TransactionType: "NFTokenBurn",
       Account: this.wallet.classicAddress,

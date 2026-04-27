@@ -70,7 +70,17 @@ export class XRPLGamingSDK {
     this.config = config;
     this.client = new Client(config.xrpl.nodeUrl);
     this.wallet = Wallet.fromSeed(config.xrpl.issuerWallet.seed);
-    this.nft = new NftManager(this.client, this.wallet, this.config);
+    this.nft = new NftManager(this.client, this.wallet, this.config, () =>
+      this.assertInitialized(),
+    );
+  }
+
+  private assertInitialized(): void {
+    if (!this.initialized) {
+      throw new XrplGamingError(
+        "XRPLGamingSDK is not initialized — call `await sdk.init()` before performing NFT operations.",
+      );
+    }
   }
 
   async init(): Promise<void> {
