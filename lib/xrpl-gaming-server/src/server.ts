@@ -15,8 +15,8 @@ export interface ServerConfig {
    */
   sdk: XRPLGamingSDK;
   /**
-   * Shared secret required in the `x-api-key` header on every request
-   * (except `GET /health`). Must be at least 16 characters.
+   * Shared secret required in the `x-api-key` header on every request,
+   * including `GET /health`. Must be at least 16 characters.
    */
   apiKey: string;
   /**
