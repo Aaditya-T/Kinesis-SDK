@@ -3,6 +3,7 @@ import type {
   NFTokenBurn,
   NFTokenCreateOffer,
   NFTokenMint,
+  NFTokenModify,
   Wallet,
 } from "xrpl";
 import { XrplGamingError, XrplTransactionError } from "./errors";
@@ -157,16 +158,14 @@ export class NftManager {
       name: `nft-${tokenId}-${Date.now()}.json`,
     });
 
-    const modifyTx = {
+    const modifyTx: NFTokenModify = {
       TransactionType: "NFTokenModify",
       Account: this.wallet.classicAddress,
       NFTokenID: tokenId,
       URI: uriToHex(upload.uri),
     };
 
-    const prepared = await this.client.autofill(
-      modifyTx as unknown as Parameters<Client["autofill"]>[0],
-    );
+    const prepared = await this.client.autofill(modifyTx);
     const signed = this.wallet.sign(prepared);
     const result = await this.client.submitAndWait(signed.tx_blob);
 
