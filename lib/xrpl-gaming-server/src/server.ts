@@ -30,8 +30,8 @@ export interface ServerConfig {
 }
 
 /**
- * Build a fully-wired express app. Health check is unauthenticated; all
- * other routes require the `x-api-key` header to match `config.apiKey`.
+ * Build a fully-wired express app. Every route — including `/health` —
+ * requires the `x-api-key` header to match `config.apiKey`.
  */
 export function createServer(config: ServerConfig): Express {
   const app = express();

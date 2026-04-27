@@ -43,7 +43,7 @@ XRPL_NODE_URL=wss://s.altnet.rippletest.net:51233 \
 XRPL_ISSUER_SEED=sEd... \
 PINATA_JWT=eyJ... \
 PORT=3000 \
-node --enable-source-maps lib/xrpl-gaming-server/dist/cli.mjs
+node --enable-source-maps lib/xrpl-gaming-server/dist/cli.js
 ```
 
 ## Environment variables

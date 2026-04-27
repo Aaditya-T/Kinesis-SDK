@@ -7,11 +7,11 @@
     ".": "./src/index.ts"
   },
   "bin": {
-    "xrpl-gaming-server": "./dist/cli.mjs"
+    "xrpl-gaming-server": "./dist/cli.js"
   },
   "scripts": {
     "build": "node ./build.mjs",
-    "start": "node --enable-source-maps ./dist/cli.mjs",
+    "start": "node --enable-source-maps ./dist/cli.js",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
