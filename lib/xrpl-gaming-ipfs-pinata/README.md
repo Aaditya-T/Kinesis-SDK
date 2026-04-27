@@ -2,6 +2,8 @@
 
 Pinata IPFS adapter for the XRPL Gaming SDK. Uploads NFT metadata JSON to Pinata and returns a public IPFS URI plus a gateway URL.
 
+> Adapters are a self-hosted concern. The managed tier (when available) will provide pinning out of the box and you will not instantiate this adapter directly.
+
 Supports either:
 
 - **JWT** (preferred) — uses Pinata's [v3 Files API](https://ai-docs.pinata.cloud/).

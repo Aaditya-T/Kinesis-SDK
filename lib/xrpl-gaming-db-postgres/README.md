@@ -2,6 +2,8 @@
 
 PostgreSQL adapter for the XRPL Gaming SDK. Stores NFT records in a single auto-managed table.
 
+> Adapters are a self-hosted concern. The managed tier (when available) will provide storage out of the box and you will not instantiate this adapter directly.
+
 ## Install
 
 ```bash
