@@ -11,9 +11,9 @@ A self-hostable HTTP/REST server that exposes the XRPL DynamicNFT Gaming SDK ove
 - `POST /nft/:tokenId/transfer` — transfer NFT to another wallet (sell-offer based)
 - `DELETE /nft/:tokenId` — burn an NFT
 - `GET /nft/:tokenId` — fetch current NFT state and metadata
-- `GET /health` — unauthenticated health probe
-- `x-api-key` shared-secret auth on all NFT routes
-- Zod-validated requests, consistent JSON error envelope, pino structured logs
+- `GET /health` — health probe (also requires `x-api-key`)
+- `x-api-key` shared-secret auth on **every** route
+- Zod-validated requests **and responses**, consistent JSON error envelope, pino structured logs
 
 ## Run it (5-minute path)
 

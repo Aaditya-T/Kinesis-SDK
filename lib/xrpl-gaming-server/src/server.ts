@@ -41,11 +41,11 @@ export function createServer(config: ServerConfig): Express {
   }
   app.use(express.json({ limit: config.jsonLimit ?? "1mb" }));
 
-  // Health is unauthenticated so load balancers / orchestrators can probe it.
-  app.use(healthRouter());
-
-  // All NFT routes require the API key.
+  // Per the spec, every endpoint — including /health — requires the
+  // x-api-key header. Operators who need an unauthenticated probe should
+  // run a sidecar /healthz behind their reverse proxy.
   app.use(apiKeyAuth(config.apiKey));
+  app.use(healthRouter());
   app.use(nftRouter(config.sdk));
 
   app.use(notFoundHandler);

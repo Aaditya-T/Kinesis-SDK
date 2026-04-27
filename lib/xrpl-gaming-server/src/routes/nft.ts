@@ -1,10 +1,15 @@
 import { Router, type IRouter, type Request, type Response, type NextFunction } from "express";
 import type { XRPLGamingSDK, NftRecord } from "@workspace/xrpl-gaming-core";
 import {
+  BurnResponseSchema,
   MintRequestSchema,
+  MintResponseSchema,
+  NftRecordResponseSchema,
   TokenIdParamSchema,
   TransferRequestSchema,
+  TransferResponseSchema,
   UpdateRequestSchema,
+  UpdateResponseSchema,
   type NftRecordResponse,
 } from "../schemas";
 
@@ -47,11 +52,12 @@ export function nftRouter(sdk: XRPLGamingSDK): IRouter {
     asyncHandler(async (req, res) => {
       const body = MintRequestSchema.parse(req.body);
       const result = await sdk.nft.mint(body);
-      res.status(201).json({
+      const payload = MintResponseSchema.parse({
         record: recordToJson(result.record),
         txHash: result.txHash,
         offerId: result.offerId,
       });
+      res.status(201).json(payload);
     }),
   );
 
@@ -62,10 +68,11 @@ export function nftRouter(sdk: XRPLGamingSDK): IRouter {
       const { tokenId } = TokenIdParamSchema.parse(req.params);
       const body = UpdateRequestSchema.parse(req.body);
       const result = await sdk.nft.update(tokenId, body);
-      res.json({
+      const payload = UpdateResponseSchema.parse({
         record: recordToJson(result.record),
         txHash: result.txHash,
       });
+      res.json(payload);
     }),
   );
 
@@ -76,10 +83,11 @@ export function nftRouter(sdk: XRPLGamingSDK): IRouter {
       const { tokenId } = TokenIdParamSchema.parse(req.params);
       const body = TransferRequestSchema.parse(req.body);
       const result = await sdk.nft.transfer(tokenId, body);
-      res.json({
+      const payload = TransferResponseSchema.parse({
         offerId: result.offerId,
         txHash: result.txHash,
       });
+      res.json(payload);
     }),
   );
 
@@ -89,7 +97,8 @@ export function nftRouter(sdk: XRPLGamingSDK): IRouter {
     asyncHandler(async (req, res) => {
       const { tokenId } = TokenIdParamSchema.parse(req.params);
       const result = await sdk.nft.burn(tokenId);
-      res.json({ txHash: result.txHash });
+      const payload = BurnResponseSchema.parse({ txHash: result.txHash });
+      res.json(payload);
     }),
   );
 
@@ -108,7 +117,8 @@ export function nftRouter(sdk: XRPLGamingSDK): IRouter {
         });
         return;
       }
-      res.json(recordToJson(record));
+      const payload = NftRecordResponseSchema.parse(recordToJson(record));
+      res.json(payload);
     }),
   );
 
