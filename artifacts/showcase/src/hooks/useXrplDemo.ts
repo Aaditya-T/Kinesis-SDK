@@ -3,8 +3,8 @@ import {
   Client,
   Wallet,
   convertStringToHex,
-  dropsToXrp,
   type NFTokenMint,
+  type NFTokenModify,
   type TransactionMetadata,
 } from "xrpl";
 
@@ -251,15 +251,14 @@ export function useXrplDemo(): UseXrplDemo {
     try {
       const client = await ensureClient();
       const newUri = metadataToUri(next);
-      // NFTokenModify is XLS-46. The xrpl npm package types it loosely
-      // (depending on version), so we cast through `unknown` here to keep
-      // type-safety elsewhere in the hook.
-      const modifyTx = {
+      // NFTokenModify is XLS-46. xrpl@4 exports the typed interface — use
+      // it directly so we get full type-safety on the transaction shape.
+      const modifyTx: NFTokenModify = {
         TransactionType: "NFTokenModify",
         Account: wallet.classicAddress,
         NFTokenID: currentNft.tokenId,
         URI: convertStringToHex(newUri),
-      } as unknown as Parameters<typeof client.submitAndWait>[0];
+      };
       const result = await client.submitAndWait(modifyTx, { wallet });
       if (isUnmountedRef.current) return;
 
@@ -275,6 +274,7 @@ export function useXrplDemo(): UseXrplDemo {
         ...currentNft,
         metadata: next,
         uri: newUri,
+        previousUri: currentNft.uri,
         lastUpdateTxHash: result.result.hash,
         updateCount: currentNft.updateCount + 1,
       };

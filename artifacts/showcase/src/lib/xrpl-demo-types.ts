@@ -18,6 +18,8 @@ export interface MintedNft {
   metadata: NftMetadata;
   /** The data URL currently stored in the NFT's `URI` field. */
   uri: string;
+  /** The previous on-chain URI (set after the first NFTokenModify). */
+  previousUri?: string;
   /** Hash of the NFTokenMint transaction. */
   mintTxHash: string;
   /** Hash of the most recent NFTokenModify transaction (set after a level-up). */

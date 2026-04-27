@@ -128,21 +128,23 @@ const browserExample: CodeExample = {
   id: "browser",
   label: "Browser (WebGL / fetch)",
   description:
-    "Browser games (WebGL, Phaser, PlayCanvas) call the same self-hosted REST API with plain fetch.",
+    "Browser games (WebGL, Phaser, PlayCanvas) call the managed API directly with a per-project API key.",
   language: "typescript",
-  code: `// Important: never ship your API key in a client-side bundle. Instead,
-// proxy these requests through your own backend (e.g. a thin /api/xrpl/*
-// route on your game server) and forward the x-api-key header there.
+  code: `// Managed tier: each project gets a public API key scoped to a single
+// game. Safe to ship in your client bundle — rate-limits and per-player
+// quotas are enforced server-side. (For the self-hosted tier, proxy
+// these requests through your own backend instead.)
+
+const API_BASE = "https://api.xrpl-gaming.dev";
+const API_KEY  = import.meta.env.VITE_XRPL_GAMING_KEY;
 
 interface MintResponse {
   record: {
     tokenId: string;
     ownerAddress: string;
-    issuerAddress: string;
     metadataUri: string;
     metadata: unknown;
     playerId: string | null;
-    collection: string | null;
     createdAt: string;
     updatedAt: string;
   };
@@ -150,12 +152,12 @@ interface MintResponse {
 }
 
 async function mintCharacter(playerId: string): Promise<MintResponse> {
-  // The self-hosted xrpl-gaming-server mounts routes at the root, so a
-  // typical proxy maps /api/xrpl/* -> http://server:8080/*.
-  const res = await fetch("/api/xrpl/nft/mint", {
+  const res = await fetch(\`\${API_BASE}/nft/mint\`, {
     method: "POST",
-    headers: { "content-type": "application/json" },
-    credentials: "include",
+    headers: {
+      "content-type": "application/json",
+      "x-api-key": API_KEY,
+    },
     body: JSON.stringify({
       metadata: { name: "Knight", class: "Knight", level: 1, power: 10 },
       playerId,

@@ -116,8 +116,8 @@ export function Demo() {
                 )}
 
                 {state.nft && (
-                  <div className="bg-background/50 rounded-lg p-3 border border-border/50">
-                    <div className="flex justify-between items-start mb-3">
+                  <div className="bg-background/50 rounded-lg p-3 border border-border/50 space-y-3">
+                    <div className="flex justify-between items-start">
                       <div>
                         <div className="font-display font-bold text-lg">{state.nft.metadata.name}</div>
                         <div className="text-sm text-muted-foreground">{state.nft.metadata.characterClass}</div>
@@ -127,11 +127,39 @@ export function Demo() {
                         <div className="font-mono text-lg text-primary">{state.nft.metadata.level}</div>
                       </div>
                     </div>
-                    <div className="flex justify-between items-center text-sm border-t border-border/50 pt-2 mt-2">
+                    <div className="flex justify-between items-center text-sm border-t border-border/50 pt-2">
                       <span className="text-muted-foreground">Power: {state.nft.metadata.power}</span>
                       <a href={nftExplorerUrl(state.nft.tokenId)} target="_blank" rel="noreferrer" className="text-xs text-primary flex items-center gap-1 hover:underline">
                         View NFT <ExternalLink className="w-3 h-3" />
                       </a>
+                    </div>
+                    <div className="border-t border-border/50 pt-2 space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] uppercase tracking-wider text-muted-foreground">On-chain URI</span>
+                        {state.nft.updateCount > 0 && (
+                          <Badge variant="secondary" className="text-[10px] bg-primary/15 text-primary hover:bg-primary/15">
+                            mutated x{state.nft.updateCount}
+                          </Badge>
+                        )}
+                      </div>
+                      {state.nft.previousUri && (
+                        <div className="text-[10px] font-mono text-muted-foreground/70 break-all line-through decoration-destructive/60">
+                          {state.nft.previousUri.length > 96
+                            ? `${state.nft.previousUri.slice(0, 96)}…`
+                            : state.nft.previousUri}
+                        </div>
+                      )}
+                      <motion.div
+                        key={state.nft.uri}
+                        initial={{ opacity: 0, backgroundColor: "rgba(34,211,238,0.18)" }}
+                        animate={{ opacity: 1, backgroundColor: "rgba(34,211,238,0)" }}
+                        transition={{ duration: 1.4 }}
+                        className="text-[11px] font-mono text-foreground/90 break-all rounded px-1 py-0.5"
+                      >
+                        {state.nft.uri.length > 120
+                          ? `${state.nft.uri.slice(0, 120)}…`
+                          : state.nft.uri}
+                      </motion.div>
                     </div>
                   </div>
                 )}

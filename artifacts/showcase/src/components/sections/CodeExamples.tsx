@@ -52,7 +52,7 @@ export function CodeExamples() {
                   </button>
                 </div>
                 <div className="p-4 overflow-x-auto text-sm">
-                  <Highlight code={ex.code} language={ex.language as any} theme={themes.vsDark}>
+                  <Highlight code={ex.code} language={ex.language} theme={themes.vsDark}>
                     {({ className, style, tokens, getLineProps, getTokenProps }) => (
                       <pre className={`${className} bg-transparent font-mono`} style={{ ...style, backgroundColor: 'transparent' }}>
                         {tokens.map((line, i) => (
