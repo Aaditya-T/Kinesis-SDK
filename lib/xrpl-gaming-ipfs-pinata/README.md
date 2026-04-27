@@ -1,6 +1,13 @@
 # @workspace/xrpl-gaming-ipfs-pinata
 
-Pinata IPFS adapter for the XRPL Gaming SDK. Uploads NFT metadata JSON to Pinata's [v3 Files API](https://ai-docs.pinata.cloud/) and returns a public IPFS URI plus a gateway URL.
+Pinata IPFS adapter for the XRPL Gaming SDK. Uploads NFT metadata JSON to Pinata and returns a public IPFS URI plus a gateway URL.
+
+Supports either:
+
+- **JWT** (preferred) — uses Pinata's [v3 Files API](https://ai-docs.pinata.cloud/).
+- **API key + secret key** (legacy) — uses Pinata's v1 `pinJSONToIPFS` endpoint.
+
+Both modes pin the metadata to the public IPFS network and return the same shape.
 
 ## Install
 
@@ -8,7 +15,7 @@ Pinata IPFS adapter for the XRPL Gaming SDK. Uploads NFT metadata JSON to Pinata
 pnpm add @workspace/xrpl-gaming-ipfs-pinata
 ```
 
-## Usage
+## Usage with a JWT (recommended)
 
 Get a JWT from https://app.pinata.cloud/developers/api-keys, then:
 
@@ -32,6 +39,15 @@ const sdk = new XRPLGamingSDK({
 });
 ```
 
+## Usage with an API key + secret key (legacy)
+
+```ts
+const ipfs = new PinataAdapter({
+  apiKey: process.env.PINATA_API_KEY!,
+  secretKey: process.env.PINATA_SECRET_KEY!,
+});
+```
+
 ## Standalone usage
 
 You can also use the adapter on its own:
@@ -49,9 +65,12 @@ console.log(result.cid);          // bafy...
 
 ## Configuration
 
+Provide **either** `{ jwt }` **or** `{ apiKey, secretKey }`:
+
 | Option | Default | Description |
 |--------|---------|-------------|
-| `jwt` | required | Pinata JWT from the API Keys page |
+| `jwt` | — | Pinata JWT from the API Keys page (uses v3 Files API) |
+| `apiKey` + `secretKey` | — | Legacy key pair (uses v1 `pinJSONToIPFS`) |
 | `gatewayDomain` | `gateway.pinata.cloud` | Domain used to build the gateway URL |
-| `uploadEndpoint` | `https://uploads.pinata.cloud/v3/files` | Override for testing or self-hosting |
-| `network` | `"public"` | `"public"` pins to public IPFS, `"private"` keeps it on Pinata only |
+| `uploadEndpoint` | v3 or v1 endpoint depending on creds | Override for testing or self-hosting |
+| `network` | `"public"` | JWT-only — `"public"` pins to public IPFS, `"private"` keeps it on Pinata |
