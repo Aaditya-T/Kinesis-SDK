@@ -1,0 +1,12 @@
+{
+  "name": "@workspace/xrpl-gaming-ipfs-pinata",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@workspace/xrpl-gaming-core": "workspace:*"
+  }
+}

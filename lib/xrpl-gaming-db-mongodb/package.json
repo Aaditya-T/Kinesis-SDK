@@ -1,0 +1,13 @@
+{
+  "name": "@workspace/xrpl-gaming-db-mongodb",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@workspace/xrpl-gaming-core": "workspace:*",
+    "mongodb": "^6.10.0"
+  }
+}

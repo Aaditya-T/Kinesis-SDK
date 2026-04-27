@@ -1,0 +1,17 @@
+{
+  "name": "@workspace/xrpl-gaming-db-postgres",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@workspace/xrpl-gaming-core": "workspace:*",
+    "pg": "^8.20.0"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/pg": "^8.18.0"
+  }
+}

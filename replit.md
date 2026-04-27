@@ -4,6 +4,15 @@
 
 pnpm workspace monorepo using TypeScript. Each package manages its own dependencies.
 
+This project also contains the **XRPL DynamicNFT Gaming SDK**, split into pluggable packages under `lib/`:
+
+- `@workspace/xrpl-gaming-core` — `XRPLGamingSDK` class, `IDBAdapter` / `IIPFSAdapter` interfaces, NFT mint/update/transfer/burn flow.
+- `@workspace/xrpl-gaming-ipfs-pinata` — Pinata IPFS adapter (v3 Files API).
+- `@workspace/xrpl-gaming-db-postgres` — PostgreSQL adapter (auto-creates table + indexes on `init()`).
+- `@workspace/xrpl-gaming-db-mongodb` — MongoDB adapter (auto-creates indexes on `init()`).
+
+The SDK is self-hosted by default; passing `{ managedApiKey }` throws `ManagedNotAvailableError` until the managed tier ships.
+
 ## Stack
 
 - **Monorepo tool**: pnpm workspaces

@@ -11,6 +11,18 @@
     },
     {
       "path": "./lib/api-zod"
+    },
+    {
+      "path": "./lib/xrpl-gaming-core"
+    },
+    {
+      "path": "./lib/xrpl-gaming-ipfs-pinata"
+    },
+    {
+      "path": "./lib/xrpl-gaming-db-postgres"
+    },
+    {
+      "path": "./lib/xrpl-gaming-db-mongodb"
     }
   ]
 }
