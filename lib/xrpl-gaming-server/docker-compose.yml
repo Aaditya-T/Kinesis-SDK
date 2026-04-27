@@ -20,12 +20,11 @@ services:
     image: node:22-alpine
     restart: unless-stopped
     working_dir: /app
-    # Mount the built dist/ directory in. Run `pnpm --filter
-    # @workspace/xrpl-gaming-server run build` on the host first.
+    # Run `pnpm --filter @workspace/xrpl-gaming-server run build` on the host
+    # first. The CLI is fully bundled by esbuild (pino transports included),
+    # so no node_modules mount is required — just the dist/ output.
     volumes:
       - ./dist:/app/dist:ro
-      - ./node_modules:/app/node_modules:ro
-      - ./package.json:/app/package.json:ro
     command: ["node", "--enable-source-maps", "/app/dist/cli.js"]
     environment:
       PORT: "3000"

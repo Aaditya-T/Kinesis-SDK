@@ -68,25 +68,25 @@ export declare const NftRecordResponseSchema: z.ZodObject<{
     createdAt: z.ZodString;
     updatedAt: z.ZodString;
 }, "strip", z.ZodTypeAny, {
+    metadata: Record<string, unknown>;
+    playerId: string | null;
+    collection: string | null;
     tokenId: string;
     ownerAddress: string;
     issuerAddress: string;
     metadataUri: string;
-    metadata: Record<string, unknown>;
-    playerId: string | null;
-    collection: string | null;
     pendingOfferId: string | null;
     pendingDestination: string | null;
     createdAt: string;
     updatedAt: string;
 }, {
+    metadata: Record<string, unknown>;
+    playerId: string | null;
+    collection: string | null;
     tokenId: string;
     ownerAddress: string;
     issuerAddress: string;
     metadataUri: string;
-    metadata: Record<string, unknown>;
-    playerId: string | null;
-    collection: string | null;
     pendingOfferId: string | null;
     pendingDestination: string | null;
     createdAt: string;
@@ -107,25 +107,25 @@ export declare const MintResponseSchema: z.ZodObject<{
         createdAt: z.ZodString;
         updatedAt: z.ZodString;
     }, "strip", z.ZodTypeAny, {
+        metadata: Record<string, unknown>;
+        playerId: string | null;
+        collection: string | null;
         tokenId: string;
         ownerAddress: string;
         issuerAddress: string;
         metadataUri: string;
-        metadata: Record<string, unknown>;
-        playerId: string | null;
-        collection: string | null;
         pendingOfferId: string | null;
         pendingDestination: string | null;
         createdAt: string;
         updatedAt: string;
     }, {
+        metadata: Record<string, unknown>;
+        playerId: string | null;
+        collection: string | null;
         tokenId: string;
         ownerAddress: string;
         issuerAddress: string;
         metadataUri: string;
-        metadata: Record<string, unknown>;
-        playerId: string | null;
-        collection: string | null;
         pendingOfferId: string | null;
         pendingDestination: string | null;
         createdAt: string;
@@ -135,13 +135,13 @@ export declare const MintResponseSchema: z.ZodObject<{
     offerId: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
     record: {
+        metadata: Record<string, unknown>;
+        playerId: string | null;
+        collection: string | null;
         tokenId: string;
         ownerAddress: string;
         issuerAddress: string;
         metadataUri: string;
-        metadata: Record<string, unknown>;
-        playerId: string | null;
-        collection: string | null;
         pendingOfferId: string | null;
         pendingDestination: string | null;
         createdAt: string;
@@ -151,13 +151,13 @@ export declare const MintResponseSchema: z.ZodObject<{
     offerId?: string | undefined;
 }, {
     record: {
+        metadata: Record<string, unknown>;
+        playerId: string | null;
+        collection: string | null;
         tokenId: string;
         ownerAddress: string;
         issuerAddress: string;
         metadataUri: string;
-        metadata: Record<string, unknown>;
-        playerId: string | null;
-        collection: string | null;
         pendingOfferId: string | null;
         pendingDestination: string | null;
         createdAt: string;
@@ -180,25 +180,25 @@ export declare const UpdateResponseSchema: z.ZodObject<{
         createdAt: z.ZodString;
         updatedAt: z.ZodString;
     }, "strip", z.ZodTypeAny, {
+        metadata: Record<string, unknown>;
+        playerId: string | null;
+        collection: string | null;
         tokenId: string;
         ownerAddress: string;
         issuerAddress: string;
         metadataUri: string;
-        metadata: Record<string, unknown>;
-        playerId: string | null;
-        collection: string | null;
         pendingOfferId: string | null;
         pendingDestination: string | null;
         createdAt: string;
         updatedAt: string;
     }, {
+        metadata: Record<string, unknown>;
+        playerId: string | null;
+        collection: string | null;
         tokenId: string;
         ownerAddress: string;
         issuerAddress: string;
         metadataUri: string;
-        metadata: Record<string, unknown>;
-        playerId: string | null;
-        collection: string | null;
         pendingOfferId: string | null;
         pendingDestination: string | null;
         createdAt: string;
@@ -207,13 +207,13 @@ export declare const UpdateResponseSchema: z.ZodObject<{
     txHash: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     record: {
+        metadata: Record<string, unknown>;
+        playerId: string | null;
+        collection: string | null;
         tokenId: string;
         ownerAddress: string;
         issuerAddress: string;
         metadataUri: string;
-        metadata: Record<string, unknown>;
-        playerId: string | null;
-        collection: string | null;
         pendingOfferId: string | null;
         pendingDestination: string | null;
         createdAt: string;
@@ -222,13 +222,13 @@ export declare const UpdateResponseSchema: z.ZodObject<{
     txHash: string;
 }, {
     record: {
+        metadata: Record<string, unknown>;
+        playerId: string | null;
+        collection: string | null;
         tokenId: string;
         ownerAddress: string;
         issuerAddress: string;
         metadataUri: string;
-        metadata: Record<string, unknown>;
-        playerId: string | null;
-        collection: string | null;
         pendingOfferId: string | null;
         pendingDestination: string | null;
         createdAt: string;
@@ -269,24 +269,24 @@ export declare const ErrorResponseSchema: z.ZodObject<{
         message: z.ZodString;
         details: z.ZodOptional<z.ZodUnknown>;
     }, "strip", z.ZodTypeAny, {
-        message: string;
         code: string;
+        message: string;
         details?: unknown;
     }, {
-        message: string;
         code: string;
+        message: string;
         details?: unknown;
     }>;
 }, "strip", z.ZodTypeAny, {
     error: {
-        message: string;
         code: string;
+        message: string;
         details?: unknown;
     };
 }, {
     error: {
-        message: string;
         code: string;
+        message: string;
         details?: unknown;
     };
 }>;

@@ -9,8 +9,8 @@ export interface ServerConfig {
      */
     sdk: XRPLGamingSDK;
     /**
-     * Shared secret required in the `x-api-key` header on every request
-     * (except `GET /health`). Must be at least 16 characters.
+     * Shared secret required in the `x-api-key` header on every request,
+     * including `GET /health`. Must be at least 16 characters.
      */
     apiKey: string;
     /**
@@ -23,8 +23,8 @@ export interface ServerConfig {
     jsonLimit?: string;
 }
 /**
- * Build a fully-wired express app. Health check is unauthenticated; all
- * other routes require the `x-api-key` header to match `config.apiKey`.
+ * Build a fully-wired express app. Every route — including `/health` —
+ * requires the `x-api-key` header to match `config.apiKey`.
  */
 export declare function createServer(config: ServerConfig): Express;
 //# sourceMappingURL=server.d.ts.map
