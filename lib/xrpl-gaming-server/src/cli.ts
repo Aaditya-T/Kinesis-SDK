@@ -34,9 +34,15 @@ function readEnv(): EnvConfig {
   if (!Number.isInteger(port) || port <= 0) {
     throw new Error(`Invalid PORT value: "${portRaw}"`);
   }
+  const apiKey = process.env["SERVER_API_KEY"]!;
+  if (apiKey.length < 16) {
+    throw new Error(
+      "SERVER_API_KEY must be at least 16 characters. Generate one with: openssl rand -hex 32",
+    );
+  }
   return {
     port,
-    apiKey: process.env["SERVER_API_KEY"]!,
+    apiKey,
     xrplNodeUrl: process.env["XRPL_NODE_URL"]!,
     xrplIssuerSeed: process.env["XRPL_ISSUER_SEED"]!,
     pinataJwt: process.env["PINATA_JWT"]!,

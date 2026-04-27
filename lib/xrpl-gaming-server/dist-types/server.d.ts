@@ -14,7 +14,9 @@ export interface ServerConfig {
      */
     apiKey: string;
     /**
-     * Optional pino logger. Defaults to a sane stdout logger when omitted.
+     * Optional pino logger. When provided, request logging via `pino-http` is
+     * mounted on every request. When omitted, no HTTP request logging is set
+     * up (the CLI always provides one; programmatic embedders may opt in).
      */
     logger?: Logger;
     /**
