@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist-types",
+    "rootDir": "src",
+    "lib": ["dom", "es2022"],
+    "types": ["node"]
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../xrpl-gaming-core" },
+    { "path": "../xrpl-gaming-ipfs-pinata" },
+    { "path": "../xrpl-gaming-db-postgres" }
+  ]
+}

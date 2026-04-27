@@ -1,0 +1,46 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: xrpl
+      POSTGRES_PASSWORD: xrpl
+      POSTGRES_DB: xrpl_gaming
+    ports:
+      - "5432:5432"
+    volumes:
+      - xrpl_gaming_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U xrpl -d xrpl_gaming"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  server:
+    image: node:22-alpine
+    restart: unless-stopped
+    working_dir: /app
+    # Mount the built dist/ directory in. Run `pnpm --filter
+    # @workspace/xrpl-gaming-server run build` on the host first.
+    volumes:
+      - ./dist:/app/dist:ro
+      - ./node_modules:/app/node_modules:ro
+      - ./package.json:/app/package.json:ro
+    command: ["node", "--enable-source-maps", "/app/dist/cli.mjs"]
+    environment:
+      PORT: "3000"
+      NODE_ENV: production
+      SERVER_API_KEY: ${SERVER_API_KEY}
+      XRPL_NODE_URL: ${XRPL_NODE_URL:-wss://s.altnet.rippletest.net:51233}
+      XRPL_ISSUER_SEED: ${XRPL_ISSUER_SEED}
+      PINATA_JWT: ${PINATA_JWT}
+      DATABASE_URL: postgres://xrpl:xrpl@postgres:5432/xrpl_gaming
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  xrpl_gaming_pg:

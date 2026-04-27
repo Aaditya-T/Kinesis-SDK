@@ -10,6 +10,7 @@ This project also contains the **XRPL DynamicNFT Gaming SDK**, split into plugga
 - `@workspace/xrpl-gaming-ipfs-pinata` — Pinata IPFS adapter (v3 Files API).
 - `@workspace/xrpl-gaming-db-postgres` — PostgreSQL adapter (auto-creates table + indexes on `init()`).
 - `@workspace/xrpl-gaming-db-mongodb` — MongoDB adapter (auto-creates indexes on `init()`).
+- `@workspace/xrpl-gaming-server` — self-hostable Express server exposing the SDK over REST (`POST /nft/mint`, `PATCH /nft/:id`, `POST /nft/:id/transfer`, `DELETE /nft/:id`, `GET /nft/:id`, `GET /health`). API-key auth, Zod validation, pino logs, ships with `docker-compose.yml` + `.env.example` for 5-minute self-host. Bridge for Unity / Unreal / native mobile.
 
 The SDK is self-hosted by default; passing `{ managedApiKey }` throws `ManagedNotAvailableError` until the managed tier ships.
 

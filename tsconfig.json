@@ -23,6 +23,9 @@
     },
     {
       "path": "./lib/xrpl-gaming-db-mongodb"
+    },
+    {
+      "path": "./lib/xrpl-gaming-server"
     }
   ]
 }
