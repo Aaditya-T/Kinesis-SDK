@@ -86,9 +86,18 @@ async function main(): Promise<void> {
 
   const shutdown = async (signal: string): Promise<void> => {
     logger.info({ signal }, "shutting down");
-    server.close((err) => {
-      if (err) logger.error({ err }, "error closing http server");
-    });
+    // Stop accepting new requests and wait for in-flight ones to drain
+    // before closing the SDK / XRPL client. Hard-cap the wait at 10s so
+    // a stuck connection can't block forever.
+    await Promise.race([
+      new Promise<void>((resolve) => {
+        server.close((err) => {
+          if (err) logger.error({ err }, "error closing http server");
+          resolve();
+        });
+      }),
+      new Promise<void>((resolve) => setTimeout(resolve, 10_000)),
+    ]);
     try {
       await sdk.close();
     } catch (err) {
