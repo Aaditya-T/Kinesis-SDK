@@ -1,5 +1,6 @@
 import React from "react";
-import { Github, Mail } from "lucide-react";
+import { Link } from "wouter";
+import { BookOpen, Github, Mail } from "lucide-react";
 import { GITHUB_REPO_URL } from "@/lib/links";
 
 export function Footer() {
@@ -14,7 +15,11 @@ export function Footer() {
             Empowering indie developers to build on-chain experiences without the blockchain learning curve.
           </p>
         </div>
-        <div className="flex gap-6">
+        <div className="flex gap-6 flex-wrap justify-center">
+          <Link href="/docs" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
+            <BookOpen className="w-4 h-4" />
+            Docs
+          </Link>
           <a href={GITHUB_REPO_URL} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
             <Github className="w-4 h-4" />
             GitHub

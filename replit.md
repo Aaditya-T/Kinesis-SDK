@@ -4,7 +4,7 @@
 
 pnpm workspace monorepo using TypeScript. Each package manages its own dependencies.
 
-This project also contains the **XRPL DynamicNFT Gaming SDK**, split into pluggable packages under `lib/`:
+This project also contains the **Kineses SDK** (publicly branded; ships on npm as `@workspace/xrpl-gaming-*`), an XRPL DynamicNFT toolkit for indie game studios. It is split into pluggable packages under `lib/`:
 
 - `@workspace/xrpl-gaming-core` — `XRPLGamingSDK` class, `IDBAdapter` / `IIPFSAdapter` interfaces, NFT mint/update/transfer/burn flow.
 - `@workspace/xrpl-gaming-ipfs-pinata` — Pinata IPFS adapter (v3 Files API).
@@ -33,5 +33,14 @@ The SDK is self-hosted by default; passing `{ managedApiKey }` throws `ManagedNo
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
 - `pnpm --filter @workspace/api-server run dev` — run API server locally
+
+## Showcase site (`artifacts/showcase`)
+
+React + Vite + Tailwind v4 landing site for the Kineses SDK. Routes:
+
+- `/` — marketing home (Hero, Features, live testnet Demo, CodeExamples, Pricing).
+- `/docs` — full SDK guide with sticky sidebar nav, IntersectionObserver-based scroll-spy, ASCII architecture diagram, package map, configuration / hosting / core-flow sections, and copy-to-clipboard code blocks (`prism-react-renderer`).
+
+Brand surface (title, navbar/footer, contact email `hello@kineses.dev`, browser API base `api.kineses.dev`) is "Kineses SDK". Code examples on the site use the real package names (`@workspace/xrpl-gaming-*`) and the `XRPLGamingSDK` class name to stay accurate to what's installed.
 
 See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details.
