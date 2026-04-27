@@ -12,7 +12,7 @@ export function Navbar() {
             <Code2 className="w-5 h-5" />
           </div>
           <span className="font-display font-bold text-lg tracking-tight">
-            XRPL Gaming<span className="text-primary">.SDK</span>
+            Kineses<span className="text-primary">.SDK</span>
           </span>
         </div>
         <div className="flex items-center gap-4">
@@ -20,13 +20,13 @@ export function Navbar() {
             href={GITHUB_REPO_URL}
             target="_blank"
             rel="noreferrer"
-            aria-label="View the XRPL Gaming SDK repository on GitHub"
+            aria-label="View the Kineses SDK repository on GitHub"
             className="text-muted-foreground hover:text-foreground transition-colors"
           >
             <Github className="w-5 h-5" />
           </a>
           <Button variant="outline" size="sm" asChild className="hidden sm:inline-flex">
-            <a href="mailto:hello@xrpl-gaming.dev">Contact Us</a>
+            <a href="mailto:hello@kineses.dev">Contact Us</a>
           </Button>
         </div>
       </div>

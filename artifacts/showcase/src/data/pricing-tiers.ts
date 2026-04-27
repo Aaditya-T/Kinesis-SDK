@@ -51,7 +51,7 @@ export const pricingTiers: PricingTier[] = [
       "Priority support — direct line to the maintainers",
       "SLA-backed uptime for your live game",
     ],
-    cta: { label: "Contact us", href: "mailto:hello@xrpl-gaming.dev" },
+    cta: { label: "Contact us", href: "mailto:hello@kineses.dev" },
     highlighted: true,
   },
 ];

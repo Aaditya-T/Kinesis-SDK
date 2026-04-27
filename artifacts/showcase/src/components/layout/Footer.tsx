@@ -8,7 +8,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="flex flex-col items-center md:items-start gap-2">
           <span className="font-display font-bold text-lg tracking-tight">
-            XRPL Gaming<span className="text-primary">.SDK</span>
+            Kineses<span className="text-primary">.SDK</span>
           </span>
           <p className="text-sm text-muted-foreground text-center md:text-left max-w-sm">
             Empowering indie developers to build on-chain experiences without the blockchain learning curve.
@@ -19,9 +19,9 @@ export function Footer() {
             <Github className="w-4 h-4" />
             GitHub
           </a>
-          <a href="mailto:hello@xrpl-gaming.dev" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
+          <a href="mailto:hello@kineses.dev" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
             <Mail className="w-4 h-4" />
-            hello@xrpl-gaming.dev
+            hello@kineses.dev
           </a>
         </div>
       </div>

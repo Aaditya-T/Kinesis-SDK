@@ -135,8 +135,8 @@ const browserExample: CodeExample = {
 // quotas are enforced server-side. (For the self-hosted tier, proxy
 // these requests through your own backend instead.)
 
-const API_BASE = "https://api.xrpl-gaming.dev";
-const API_KEY  = import.meta.env.VITE_XRPL_GAMING_KEY;
+const API_BASE = "https://api.kineses.dev";
+const API_KEY  = import.meta.env.VITE_KINESES_API_KEY;
 
 interface MintResponse {
   record: {
