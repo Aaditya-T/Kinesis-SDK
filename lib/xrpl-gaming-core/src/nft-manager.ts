@@ -100,25 +100,12 @@ export class NftManager {
       );
     }
 
-    let offerId: string | undefined;
-    let pendingDestination: string | null = null;
-
-    if (params.destination) {
-      const offer = await this.createSellOffer(
-        tokenId,
-        params.destination,
-        "0",
-      );
-      offerId = offer.offerId;
-      pendingDestination = params.destination;
-    }
-
+    // Persist the record IMMEDIATELY after the mint settles, before any
+    // optional sell-offer creation. If the offer step fails the NFT is
+    // still tracked in the DB and the caller can retry via `transfer()`,
+    // rather than orphaning a minted NFT off-ledger.
     const now = new Date();
-    // Owner stays as the issuer until the destination wallet accepts the
-    // sell offer on-chain. We surface the pending state via `pendingOfferId`
-    // / `pendingDestination` so applications can reconcile when the transfer
-    // settles.
-    const record: NftRecord = {
+    let record: NftRecord = {
       tokenId,
       ownerAddress: this.wallet.classicAddress,
       issuerAddress: this.wallet.classicAddress,
@@ -126,13 +113,28 @@ export class NftManager {
       metadata: params.metadata,
       playerId: params.playerId ?? null,
       collection: params.collection ?? null,
-      pendingOfferId: offerId ?? null,
-      pendingDestination,
+      pendingOfferId: null,
+      pendingDestination: null,
       createdAt: now,
       updatedAt: now,
     };
-
     await this.config.db.saveNft(record);
+
+    let offerId: string | undefined;
+    if (params.destination) {
+      const offer = await this.createSellOffer(
+        tokenId,
+        params.destination,
+        "0",
+      );
+      offerId = offer.offerId;
+      const patched = await this.config.db.updateNft(tokenId, {
+        pendingOfferId: offer.offerId,
+        pendingDestination: params.destination,
+        updatedAt: new Date(),
+      });
+      if (patched) record = patched;
+    }
 
     return { record, txHash: signed.hash, offerId };
   }
