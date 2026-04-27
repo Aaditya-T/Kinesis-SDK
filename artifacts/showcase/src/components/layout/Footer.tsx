@@ -1,5 +1,6 @@
 import React from "react";
 import { Github, Mail } from "lucide-react";
+import { GITHUB_REPO_URL } from "@/lib/links";
 
 export function Footer() {
   return (
@@ -14,7 +15,7 @@ export function Footer() {
           </p>
         </div>
         <div className="flex gap-6">
-          <a href="https://github.com" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
+          <a href={GITHUB_REPO_URL} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
             <Github className="w-4 h-4" />
             GitHub
           </a>

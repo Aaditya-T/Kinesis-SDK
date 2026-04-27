@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from "wouter";
 import { Github, Code2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { GITHUB_REPO_URL } from "@/lib/links";
 
 export function Navbar() {
   return (
@@ -16,10 +16,11 @@ export function Navbar() {
           </span>
         </div>
         <div className="flex items-center gap-4">
-          <a 
-            href="https://github.com" 
-            target="_blank" 
+          <a
+            href={GITHUB_REPO_URL}
+            target="_blank"
             rel="noreferrer"
+            aria-label="View the XRPL Gaming SDK repository on GitHub"
             className="text-muted-foreground hover:text-foreground transition-colors"
           >
             <Github className="w-5 h-5" />

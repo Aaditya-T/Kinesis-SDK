@@ -31,7 +31,10 @@ export const pricingTiers: PricingTier[] = [
       "Unity, Discord, browser, and Node.js examples",
       "Issue NFTs on testnet or mainnet — your call",
     ],
-    cta: { label: "Get the SDK on GitHub", href: "https://github.com/" },
+    cta: {
+      label: "Get the SDK on GitHub",
+      href: "https://github.com/xrpl-gaming/xrpl-gaming-sdk",
+    },
   },
   {
     id: "managed",
