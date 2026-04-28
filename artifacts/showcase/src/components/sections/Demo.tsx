@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   AlertCircle,
   ExternalLink,
-  Play,
   RefreshCw,
   Terminal,
   Wallet,
@@ -22,8 +21,8 @@ export function Demo() {
   const isWorking = state.status === "funding" || state.status === "minting" || state.status === "updating";
 
   return (
-    <section id="demo" className="py-24 border-y border-border/40 relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-primary/5 via-background to-background" />
+    <section id="demo" className="py-24 border-y border-border/60 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-primary/10 via-background to-black" />
       
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
@@ -39,7 +38,7 @@ export function Demo() {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Controls & UI */}
           <div className="space-y-6">
-            <div className="p-6 rounded-2xl bg-card border border-border flex flex-col gap-6">
+            <div className="p-6 rounded-xl bg-card/95 border border-border/80 shadow-[0_12px_34px_rgba(0,0,0,0.4)] flex flex-col gap-6">
               
               {/* Step 1: Wallet */}
               <div className={`p-4 rounded-xl border ${state.walletAddress ? 'border-primary/50 bg-primary/5' : 'border-border/50 bg-secondary/30'}`}>
@@ -151,8 +150,8 @@ export function Demo() {
                       )}
                       <motion.div
                         key={state.nft.uri}
-                        initial={{ opacity: 0, backgroundColor: "rgba(34,211,238,0.18)" }}
-                        animate={{ opacity: 1, backgroundColor: "rgba(34,211,238,0)" }}
+                        initial={{ opacity: 0, backgroundColor: "rgba(255,122,42,0.2)" }}
+                        animate={{ opacity: 1, backgroundColor: "rgba(255,122,42,0)" }}
                         transition={{ duration: 1.4 }}
                         className="text-[11px] font-mono text-foreground/90 break-all rounded px-1 py-0.5"
                       >
@@ -205,7 +204,7 @@ export function Demo() {
           </div>
 
           {/* Activity Log */}
-          <div className="rounded-2xl border border-border bg-black/40 flex flex-col h-[500px] overflow-hidden">
+          <div className="rounded-xl border border-border/80 bg-black/55 flex flex-col h-[500px] overflow-hidden shadow-[0_12px_34px_rgba(0,0,0,0.45)]">
             <div className="p-4 border-b border-border/50 bg-card/50 flex items-center gap-2">
               <Terminal className="w-4 h-4 text-muted-foreground" />
               <span className="font-mono text-sm font-semibold">Live Transaction Log</span>
@@ -224,7 +223,7 @@ export function Demo() {
                       animate={{ opacity: 1, x: 0 }}
                       className={`p-2 rounded border ${
                         entry.kind === 'error' ? 'bg-destructive/10 border-destructive/30 text-red-400' :
-                        entry.kind === 'tx' ? 'bg-primary/5 border-primary/20 text-blue-300' :
+                        entry.kind === 'tx' ? 'bg-primary/5 border-primary/20 text-primary' :
                         'bg-secondary/30 border-border/30 text-gray-400'
                       }`}
                     >

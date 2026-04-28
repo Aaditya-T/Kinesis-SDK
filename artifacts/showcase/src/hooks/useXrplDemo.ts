@@ -98,10 +98,6 @@ export function useXrplDemo(): UseXrplDemo {
     return client;
   }, []);
 
-  const appendLog = useCallback((entry: DemoLogEntry) => {
-    setState((prev) => ({ ...prev, log: [...prev.log, entry] }));
-  }, []);
-
   const setError = useCallback((message: string) => {
     setState((prev) => ({
       ...prev,

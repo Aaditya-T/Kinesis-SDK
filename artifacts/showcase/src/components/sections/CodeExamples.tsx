@@ -40,7 +40,7 @@ export function CodeExamples() {
               <motion.div 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-card border border-border/50 rounded-xl overflow-hidden"
+                className="bg-card/95 border border-border/80 rounded-xl overflow-hidden shadow-[0_12px_30px_rgba(0,0,0,0.35)]"
               >
                 <div className="flex items-center justify-between px-4 py-3 border-b border-border/50 bg-secondary/30">
                   <span className="text-sm text-muted-foreground font-mono">{ex.description}</span>

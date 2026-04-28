@@ -33,7 +33,7 @@ export const pricingTiers: PricingTier[] = [
     ],
     cta: {
       label: "Get the SDK on GitHub",
-      href: "https://github.com/xrpl-gaming/xrpl-gaming-sdk",
+      href: "https://github.com/Aaditya-T/Kinessis-SDK",
     },
   },
   {
@@ -51,7 +51,7 @@ export const pricingTiers: PricingTier[] = [
       "Priority support — direct line to the maintainers",
       "SLA-backed uptime for your live game",
     ],
-    cta: { label: "Contact us", href: "mailto:hello@kineses.dev" },
+    cta: { label: "Contact us", href: "mailto:info@blockcelerate.net" },
     highlighted: true,
   },
 ];

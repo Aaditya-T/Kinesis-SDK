@@ -25,8 +25,13 @@ export default function Docs() {
             <div className="text-xs font-semibold uppercase tracking-wider text-primary mb-2">
               Documentation
             </div>
+            <img
+              src="/logo.png"
+              alt="Kineses logo"
+              className="w-14 h-14 object-contain rounded-lg mb-4"
+            />
             <h1 className="text-4xl sm:text-5xl font-display font-bold tracking-tight mb-4">
-              The complete Kineses SDK guide
+              The complete Kineses SDK guide by Blockcelerate
             </h1>
             <p className="text-lg text-muted-foreground max-w-3xl leading-relaxed">
               Everything you need to ship XRPL DynamicNFTs in your game — the package map, how the

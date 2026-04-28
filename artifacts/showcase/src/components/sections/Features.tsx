@@ -27,7 +27,7 @@ const features = [
 
 export function Features() {
   return (
-    <section className="py-24 bg-secondary/20 border-y border-border/40">
+    <section className="py-24 bg-black/30 border-y border-border/60">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((f, i) => (
@@ -37,7 +37,7 @@ export function Features() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
-              className="flex flex-col gap-4 p-6 rounded-2xl bg-card border border-border/50"
+              className="flex flex-col gap-4 p-6 rounded-xl bg-card/95 border border-border/80 shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
             >
               <div className="w-10 h-10 rounded bg-primary/10 flex items-center justify-center text-primary">
                 <f.icon className="w-5 h-5" />

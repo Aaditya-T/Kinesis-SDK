@@ -8,11 +8,15 @@ export function Footer() {
     <footer className="border-t border-border/40 bg-background py-12 mt-24">
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="flex flex-col items-center md:items-start gap-2">
-          <span className="font-display font-bold text-lg tracking-tight">
-            Kineses<span className="text-primary">.SDK</span>
-          </span>
+          <div className="flex items-center gap-2">
+            <img src="/logo.png" alt="Kineses logo" className="w-8 h-8 rounded-md object-contain" />
+            <span className="font-display font-bold text-lg tracking-tight">
+              Kineses<span className="text-primary">.SDK</span>
+            </span>
+          </div>
           <p className="text-sm text-muted-foreground text-center md:text-left max-w-sm">
-            Empowering indie developers to build on-chain experiences without the blockchain learning curve.
+            Built by Blockcelerate. Empowering indie developers to ship on-chain experiences without
+            the blockchain learning curve.
           </p>
         </div>
         <div className="flex gap-6 flex-wrap justify-center">
@@ -24,9 +28,9 @@ export function Footer() {
             <Github className="w-4 h-4" />
             GitHub
           </a>
-          <a href="mailto:hello@kineses.dev" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
+          <a href="mailto:info@blockcelerate.net" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
             <Mail className="w-4 h-4" />
-            hello@kineses.dev
+            info@blockcelerate.net
           </a>
         </div>
       </div>

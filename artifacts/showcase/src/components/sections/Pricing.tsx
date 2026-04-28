@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 export function Pricing() {
   return (
-    <section className="py-24 bg-secondary/10">
+    <section className="py-24 bg-black/25">
       <div className="max-w-5xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-display font-bold mb-4">Start free. Scale when you're ready.</h2>
@@ -16,7 +16,7 @@ export function Pricing() {
           {pricingTiers.map(tier => (
             <div 
               key={tier.id}
-              className={`p-8 rounded-2xl border ${tier.highlighted ? 'border-primary bg-primary/5 relative' : 'border-border bg-card'}`}
+              className={`p-8 rounded-xl border shadow-[0_10px_28px_rgba(0,0,0,0.35)] ${tier.highlighted ? 'border-primary bg-primary/8 relative' : 'border-border/80 bg-card/95'}`}
             >
               {tier.highlighted && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
