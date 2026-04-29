@@ -1,12 +1,59 @@
 {
-  "name": "@workspace/xrpl-gaming-ipfs-pinata",
-  "version": "0.0.0",
-  "private": true,
-  "type": "module",
-  "exports": {
-    ".": "./src/index.ts"
+  "name": "xrpl-gaming-ipfs-pinata",
+  "version": "0.1.0",
+  "description": "Pinata IPFS adapter for the Kineses XRPL DynamicNFT Gaming SDK. Uploads NFT metadata to IPFS via Pinata so the URI stored on-chain (NFTokenMint / NFTokenModify) resolves to mutable JSON.",
+  "keywords": [
+    "xrpl",
+    "nft",
+    "dynamic-nft",
+    "gaming",
+    "ipfs",
+    "pinata",
+    "kineses",
+    "sdk",
+    "adapter"
+  ],
+  "author": "Aaditya T",
+  "license": "MIT",
+  "homepage": "https://github.com/Aaditya-T/Kinessis-SDK/tree/main/lib/xrpl-gaming-ipfs-pinata#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aaditya-T/Kinessis-SDK.git",
+    "directory": "lib/xrpl-gaming-ipfs-pinata"
   },
-  "dependencies": {
-    "@workspace/xrpl-gaming-core": "workspace:*"
+  "bugs": {
+    "url": "https://github.com/Aaditya-T/Kinessis-SDK/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "workspace": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepack": "tsc -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "xrpl-gaming-core": "^0.1.0"
+  },
+  "devDependencies": {
+    "xrpl-gaming-core": "workspace:*"
   }
 }

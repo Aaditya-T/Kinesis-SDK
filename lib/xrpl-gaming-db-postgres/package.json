@@ -1,17 +1,64 @@
 {
-  "name": "@workspace/xrpl-gaming-db-postgres",
-  "version": "0.0.0",
-  "private": true,
+  "name": "xrpl-gaming-db-postgres",
+  "version": "0.1.0",
+  "description": "PostgreSQL storage adapter for the Kineses XRPL DynamicNFT Gaming SDK. Persists NFT records, metadata snapshots and ownership history to a single auto-created table.",
+  "keywords": [
+    "xrpl",
+    "nft",
+    "dynamic-nft",
+    "gaming",
+    "postgres",
+    "postgresql",
+    "kineses",
+    "sdk",
+    "adapter"
+  ],
+  "author": "Aaditya T",
+  "license": "MIT",
+  "homepage": "https://github.com/Aaditya-T/Kinessis-SDK/tree/main/lib/xrpl-gaming-db-postgres#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aaditya-T/Kinessis-SDK.git",
+    "directory": "lib/xrpl-gaming-db-postgres"
+  },
+  "bugs": {
+    "url": "https://github.com/Aaditya-T/Kinessis-SDK/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "workspace": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepack": "tsc -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "xrpl-gaming-core": "^0.1.0"
   },
   "dependencies": {
-    "@workspace/xrpl-gaming-core": "workspace:*",
     "pg": "^8.20.0"
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "@types/pg": "^8.18.0"
+    "@types/pg": "^8.18.0",
+    "xrpl-gaming-core": "workspace:*"
   }
 }

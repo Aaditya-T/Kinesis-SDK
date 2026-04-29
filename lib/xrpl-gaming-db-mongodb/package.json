@@ -1,13 +1,62 @@
 {
-  "name": "@workspace/xrpl-gaming-db-mongodb",
-  "version": "0.0.0",
-  "private": true,
+  "name": "xrpl-gaming-db-mongodb",
+  "version": "0.1.0",
+  "description": "MongoDB storage adapter for the Kineses XRPL DynamicNFT Gaming SDK. Persists NFT records and ownership history to a single MongoDB collection.",
+  "keywords": [
+    "xrpl",
+    "nft",
+    "dynamic-nft",
+    "gaming",
+    "mongo",
+    "mongodb",
+    "kineses",
+    "sdk",
+    "adapter"
+  ],
+  "author": "Aaditya T",
+  "license": "MIT",
+  "homepage": "https://github.com/Aaditya-T/Kinessis-SDK/tree/main/lib/xrpl-gaming-db-mongodb#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aaditya-T/Kinessis-SDK.git",
+    "directory": "lib/xrpl-gaming-db-mongodb"
+  },
+  "bugs": {
+    "url": "https://github.com/Aaditya-T/Kinessis-SDK/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "workspace": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepack": "tsc -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "xrpl-gaming-core": "^0.1.0"
   },
   "dependencies": {
-    "@workspace/xrpl-gaming-core": "workspace:*",
     "mongodb": "^6.10.0"
+  },
+  "devDependencies": {
+    "xrpl-gaming-core": "workspace:*"
   }
 }

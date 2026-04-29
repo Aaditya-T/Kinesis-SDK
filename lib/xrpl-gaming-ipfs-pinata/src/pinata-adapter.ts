@@ -3,7 +3,7 @@ import type {
   IpfsUploadOptions,
   IpfsUploadResult,
   NftMetadata,
-} from "@workspace/xrpl-gaming-core";
+} from "xrpl-gaming-core";
 
 /**
  * Bearer JWT credentials. Recommended — used with Pinata's v3 Files API.

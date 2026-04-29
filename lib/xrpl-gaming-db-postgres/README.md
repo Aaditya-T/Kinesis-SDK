@@ -1,4 +1,4 @@
-# @workspace/xrpl-gaming-db-postgres
+# xrpl-gaming-db-postgres
 
 PostgreSQL adapter for the XRPL Gaming SDK. Stores NFT records in a single auto-managed table.
 
@@ -7,15 +7,15 @@ PostgreSQL adapter for the XRPL Gaming SDK. Stores NFT records in a single auto-
 ## Install
 
 ```bash
-pnpm add @workspace/xrpl-gaming-db-postgres
+pnpm add xrpl-gaming-db-postgres
 ```
 
 ## Usage
 
 ```ts
-import { XRPLGamingSDK } from "@workspace/xrpl-gaming-core";
-import { PostgresAdapter } from "@workspace/xrpl-gaming-db-postgres";
-import { PinataAdapter } from "@workspace/xrpl-gaming-ipfs-pinata";
+import { XRPLGamingSDK } from "xrpl-gaming-core";
+import { PostgresAdapter } from "xrpl-gaming-db-postgres";
+import { PinataAdapter } from "xrpl-gaming-ipfs-pinata";
 
 const sdk = new XRPLGamingSDK({
   xrpl: {

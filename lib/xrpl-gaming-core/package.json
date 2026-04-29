@@ -1,10 +1,53 @@
 {
-  "name": "@workspace/xrpl-gaming-core",
-  "version": "0.0.0",
-  "private": true,
+  "name": "xrpl-gaming-core",
+  "version": "0.1.0",
+  "description": "Core of the Kineses XRPL DynamicNFT Gaming SDK. Provides the XRPLGamingSDK class plus pluggable IDBAdapter and IIPFSAdapter interfaces for minting, updating, transferring, burning and querying mutable game NFTs on the XRP Ledger.",
+  "keywords": [
+    "xrpl",
+    "xrp",
+    "nft",
+    "dynamic-nft",
+    "nftokenmodify",
+    "gaming",
+    "kineses",
+    "sdk"
+  ],
+  "author": "Aaditya T",
+  "license": "MIT",
+  "homepage": "https://github.com/Aaditya-T/Kinessis-SDK/tree/main/lib/xrpl-gaming-core#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aaditya-T/Kinessis-SDK.git",
+    "directory": "lib/xrpl-gaming-core"
+  },
+  "bugs": {
+    "url": "https://github.com/Aaditya-T/Kinessis-SDK/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "workspace": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepack": "tsc -p tsconfig.json"
   },
   "dependencies": {
     "xrpl": "^4.0.0"

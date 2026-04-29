@@ -2,7 +2,7 @@ import type {
   IDBAdapter,
   NftMetadata,
   NftRecord,
-} from "@workspace/xrpl-gaming-core";
+} from "xrpl-gaming-core";
 import pg from "pg";
 
 const { Pool } = pg;

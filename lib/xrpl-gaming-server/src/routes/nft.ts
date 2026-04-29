@@ -1,5 +1,5 @@
 import { Router, type IRouter, type Request, type Response, type NextFunction } from "express";
-import type { XRPLGamingSDK, NftRecord } from "@workspace/xrpl-gaming-core";
+import type { XRPLGamingSDK, NftRecord } from "xrpl-gaming-core";
 import {
   BurnResponseSchema,
   MintRequestSchema,
@@ -11,7 +11,7 @@ import {
   UpdateRequestSchema,
   UpdateResponseSchema,
   type NftRecordResponse,
-} from "../schemas";
+} from "../schemas.js";
 
 /** Convert an SDK record to its JSON-safe response shape (Date → ISO string). */
 function recordToJson(record: NftRecord): NftRecordResponse {

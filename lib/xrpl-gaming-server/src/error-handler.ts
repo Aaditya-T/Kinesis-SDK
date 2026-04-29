@@ -4,7 +4,7 @@ import {
   ManagedNotAvailableError,
   XrplGamingError,
   XrplTransactionError,
-} from "@workspace/xrpl-gaming-core";
+} from "xrpl-gaming-core";
 
 interface ErrorJson {
   error: {

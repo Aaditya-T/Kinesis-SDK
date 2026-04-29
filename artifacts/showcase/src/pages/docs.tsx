@@ -51,7 +51,7 @@ export default function Docs() {
             <Section id="overview" eyebrow="Getting started" title="Overview">
               <p>
                 <strong>Kineses SDK</strong> (shipped on npm under the{" "}
-                <code>@workspace/xrpl-gaming-*</code> scope) is a TypeScript toolkit for issuing and
+                <code>xrpl-gaming-*</code> packages) is a TypeScript toolkit for issuing and
                 mutating <strong>DynamicNFTs (XLS-46)</strong> on the XRP Ledger. It is built for
                 indie game studios who want on-chain assets that <em>change as players play</em>{" "}
                 — without writing smart contracts, learning xrpl.js wire formats, or running a
@@ -82,7 +82,7 @@ export default function Docs() {
               </ul>
               <Callout variant="info" title="A note on the name">
                 Kineses SDK is the public brand. On the wire and in npm, the packages currently
-                ship as <code>@workspace/xrpl-gaming-*</code> and the main class is{" "}
+                ship as <code>xrpl-gaming-*</code> and the main class is{" "}
                 <code>XRPLGamingSDK</code>. The two will reconcile in a future release; until then,
                 use the package names you see in the install commands.
               </Callout>
@@ -280,7 +280,7 @@ export default function Docs() {
               <p>
                 If your game backend is in a different language (Go, Python, C# Unity server) or
                 you want a clean service boundary, use{" "}
-                <code>@workspace/xrpl-gaming-server</code>. It wraps the SDK in an Express app
+                <code>xrpl-gaming-server</code>. It wraps the SDK in an Express app
                 with <code>x-api-key</code> auth and zod request validation:
               </p>
               <CodeBlock code={SNIPPETS.standaloneServer} language="ts" filename="kineses-server/src/index.ts" />

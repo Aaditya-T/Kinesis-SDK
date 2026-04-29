@@ -1,6 +1,6 @@
-# @workspace/xrpl-gaming-server
+# xrpl-gaming-server
 
-A self-hostable HTTP/REST server that exposes the XRPL DynamicNFT Gaming SDK over a simple JSON API. Designed for game studios on **non-JavaScript platforms** (Unity, Unreal, native mobile) that cannot import the Node.js SDK directly — they call this server instead.
+A self-hostable HTTP/REST server that exposes the Kineses XRPL DynamicNFT Gaming SDK over a simple JSON API. Designed for game studios on **non-JavaScript platforms** (Unity, Unreal, native mobile) that cannot import the Node.js SDK directly — they call this server instead.
 
 > Adapters and the CLI are a self-hosted concern. The future managed tier will provide a hosted endpoint with the same API contract.
 
@@ -15,30 +15,52 @@ A self-hostable HTTP/REST server that exposes the XRPL DynamicNFT Gaming SDK ove
 - `x-api-key` shared-secret auth on **every** route
 - Zod-validated requests **and responses**, consistent JSON error envelope, pino structured logs
 
-## Run it (5-minute path)
+## Install
 
 ```bash
-# 1. From the monorepo root
-pnpm install
-pnpm --filter @workspace/xrpl-gaming-server run build
+npm install -g xrpl-gaming-server
+# or run without installing:
+npx xrpl-gaming-server
+```
+
+The package ships a self-contained `xrpl-gaming-server` CLI binary, an
+`.env.example` you can copy, and a `docker-compose.example.yml` that wires
+Postgres + the server together.
+
+## Run it (5-minute path, npm)
+
+```bash
+# 1. Install
+npm install -g xrpl-gaming-server
 
 # 2. Configure
-cp lib/xrpl-gaming-server/.env.example lib/xrpl-gaming-server/.env
-# edit .env — at minimum set SERVER_API_KEY, XRPL_ISSUER_SEED, PINATA_JWT
+cp $(npm root -g)/xrpl-gaming-server/.env.example .env
+# edit .env — at minimum set SERVER_API_KEY, XRPL_ISSUER_SEED, PINATA_JWT, DATABASE_URL
 
-# 3. Start Postgres + the server
-cd lib/xrpl-gaming-server
+# 3. Run
+xrpl-gaming-server
+```
+
+The server is now listening on `http://localhost:3000` (or `$PORT`).
+
+### With Docker Compose
+
+Copy the example compose file out of the package and bring everything up:
+
+```bash
+cp $(npm root -g)/xrpl-gaming-server/docker-compose.example.yml docker-compose.yml
+cp $(npm root -g)/xrpl-gaming-server/.env.example .env
+# edit .env — set SERVER_API_KEY, XRPL_ISSUER_SEED, PINATA_JWT
 docker compose up -d
 ```
 
-The server is now listening on `http://localhost:3000`.
-
 > ⚠️ **Before deploying anywhere except your laptop**, change the default Postgres credentials in `docker-compose.yml` (`POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`) and update `DATABASE_URL` accordingly. The defaults (`xrpl` / `xrpl`) are convenient for local dev only and must not be used in production or on any host reachable from the public internet.
 
-### Run without docker
+## Run from the monorepo (contributors)
 
 ```bash
-pnpm --filter @workspace/xrpl-gaming-server run build
+pnpm install
+pnpm --filter xrpl-gaming-server run build
 DATABASE_URL=postgres://... \
 SERVER_API_KEY=... \
 XRPL_NODE_URL=wss://s.altnet.rippletest.net:51233 \
@@ -240,10 +262,10 @@ curl -X POST http://localhost:3000/nft/mint \
 If you want to embed the server inside a larger Node service, construct and **`await sdk.init()` yourself** before passing the SDK in. `createServer` deliberately accepts a pre-initialized SDK so embedders can share a single SDK instance with their own background workers, ledger watchers, etc.
 
 ```ts
-import { createServer } from "@workspace/xrpl-gaming-server";
-import { XRPLGamingSDK } from "@workspace/xrpl-gaming-core";
-import { PinataAdapter } from "@workspace/xrpl-gaming-ipfs-pinata";
-import { PostgresAdapter } from "@workspace/xrpl-gaming-db-postgres";
+import { createServer } from "xrpl-gaming-server";
+import { XRPLGamingSDK } from "xrpl-gaming-core";
+import { PinataAdapter } from "xrpl-gaming-ipfs-pinata";
+import { PostgresAdapter } from "xrpl-gaming-db-postgres";
 
 const sdk = new XRPLGamingSDK({
   xrpl: { nodeUrl: "wss://...", issuerWallet: { seed: "sEd..." } },

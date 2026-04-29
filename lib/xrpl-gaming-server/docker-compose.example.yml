@@ -1,0 +1,53 @@
+# Self-host xrpl-gaming-server + Postgres in one shot.
+#
+# Usage:
+#   1. Copy this file out of the installed package and to a directory you own:
+#        cp $(npm root -g)/xrpl-gaming-server/docker-compose.example.yml docker-compose.yml
+#        cp $(npm root -g)/xrpl-gaming-server/.env.example .env
+#   2. Edit .env — at minimum set SERVER_API_KEY (>= 16 chars), XRPL_ISSUER_SEED, PINATA_JWT.
+#   3. docker compose up -d
+#
+# The server container pulls the xrpl-gaming-server CLI from npm at startup
+# via `npx`, so there is nothing to build locally and no volume mounts are
+# required. The CLI is fully self-contained (pino transports inlined).
+#
+# To pin a specific version, replace `xrpl-gaming-server@latest` below.
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: xrpl
+      POSTGRES_PASSWORD: xrpl
+      POSTGRES_DB: xrpl_gaming
+    ports:
+      - "5432:5432"
+    volumes:
+      - xrpl_gaming_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U xrpl -d xrpl_gaming"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  server:
+    image: node:24-alpine
+    restart: unless-stopped
+    command: ["npx", "-y", "xrpl-gaming-server@latest"]
+    environment:
+      PORT: "3000"
+      NODE_ENV: production
+      SERVER_API_KEY: ${SERVER_API_KEY}
+      XRPL_NODE_URL: ${XRPL_NODE_URL:-wss://s.altnet.rippletest.net:51233}
+      XRPL_ISSUER_SEED: ${XRPL_ISSUER_SEED}
+      PINATA_JWT: ${PINATA_JWT}
+      DATABASE_URL: postgres://xrpl:xrpl@postgres:5432/xrpl_gaming
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  xrpl_gaming_pg:

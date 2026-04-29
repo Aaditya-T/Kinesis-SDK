@@ -1,22 +1,22 @@
-export { XRPLGamingSDK } from "./sdk";
-export { NftManager } from "./nft-manager";
+export { XRPLGamingSDK } from "./sdk.js";
+export { NftManager } from "./nft-manager.js";
 export {
   ManagedNotAvailableError,
   XrplGamingError,
   XrplTransactionError,
-} from "./errors";
+} from "./errors.js";
 export {
   extractOfferIdFromMeta,
   extractTokenIdFromMeta,
   hexToUri,
   uriToHex,
-} from "./util";
+} from "./util.js";
 export type {
   IDBAdapter,
   IIPFSAdapter,
   IpfsUploadOptions,
   IpfsUploadResult,
-} from "./adapters";
+} from "./adapters.js";
 export type {
   BurnResult,
   ManagedConfig,
@@ -31,4 +31,4 @@ export type {
   UpdateParams,
   UpdateResult,
   XrplConfig,
-} from "./types";
+} from "./types.js";

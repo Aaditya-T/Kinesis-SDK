@@ -1,8 +1,8 @@
-import { XRPLGamingSDK } from "@workspace/xrpl-gaming-core";
-import { PinataAdapter } from "@workspace/xrpl-gaming-ipfs-pinata";
-import { PostgresAdapter } from "@workspace/xrpl-gaming-db-postgres";
+import { XRPLGamingSDK } from "xrpl-gaming-core";
+import { PinataAdapter } from "xrpl-gaming-ipfs-pinata";
+import { PostgresAdapter } from "xrpl-gaming-db-postgres";
 import pino from "pino";
-import { createServer } from "./server";
+import { createServer } from "./server.js";
 
 interface EnvConfig {
   port: number;

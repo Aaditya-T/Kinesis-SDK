@@ -1,4 +1,4 @@
-# @workspace/xrpl-gaming-db-mongodb
+# xrpl-gaming-db-mongodb
 
 MongoDB adapter for the XRPL Gaming SDK. Stores NFT records in a single auto-indexed collection.
 
@@ -7,15 +7,15 @@ MongoDB adapter for the XRPL Gaming SDK. Stores NFT records in a single auto-ind
 ## Install
 
 ```bash
-pnpm add @workspace/xrpl-gaming-db-mongodb
+pnpm add xrpl-gaming-db-mongodb
 ```
 
 ## Usage
 
 ```ts
-import { XRPLGamingSDK } from "@workspace/xrpl-gaming-core";
-import { MongoAdapter } from "@workspace/xrpl-gaming-db-mongodb";
-import { PinataAdapter } from "@workspace/xrpl-gaming-ipfs-pinata";
+import { XRPLGamingSDK } from "xrpl-gaming-core";
+import { MongoAdapter } from "xrpl-gaming-db-mongodb";
+import { PinataAdapter } from "xrpl-gaming-ipfs-pinata";
 
 const sdk = new XRPLGamingSDK({
   xrpl: {

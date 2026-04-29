@@ -1,19 +1,32 @@
 {
-  "name": "workspace",
-  "version": "0.0.0",
+  "name": "kinessis-sdk",
+  "version": "0.1.0",
   "license": "MIT",
+  "private": true,
+  "description": "Kineses SDK monorepo — DynamicNFT gaming SDK for the XRPL with pluggable storage and IPFS adapters, plus a self-hostable HTTP server.",
+  "homepage": "https://github.com/Aaditya-T/Kinessis-SDK#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aaditya-T/Kinessis-SDK.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Aaditya-T/Kinessis-SDK/issues"
+  },
   "scripts": {
     "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",
     "build": "pnpm run typecheck && pnpm -r --if-present run build",
+    "build:sdk": "pnpm -r --filter \"./lib/xrpl-gaming-*\" run build",
     "typecheck:libs": "tsc --build",
-    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
+    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --if-present run typecheck"
   },
-  "private": true,
   "devDependencies": {
-    "@rollup/rollup-darwin-arm64": "^4.60.2",
-    "@tailwindcss/oxide-darwin-arm64": "^4.2.4",
-    "lightningcss-darwin-arm64": "^1.32.0",
-    "prettier": "^3.8.1",
     "typescript": "~5.9.2"
-  }
+  },
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "keywords": [],
+  "author": "",
+  "type": "commonjs"
 }

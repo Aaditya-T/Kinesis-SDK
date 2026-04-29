@@ -1,11 +1,11 @@
 import express, { type Express } from "express";
 import pinoHttp from "pino-http";
 import type { Logger } from "pino";
-import type { XRPLGamingSDK } from "@workspace/xrpl-gaming-core";
-import { apiKeyAuth } from "./middleware";
-import { errorHandler, notFoundHandler } from "./error-handler";
-import { healthRouter } from "./routes/health";
-import { nftRouter } from "./routes/nft";
+import type { XRPLGamingSDK } from "xrpl-gaming-core";
+import { apiKeyAuth } from "./middleware.js";
+import { errorHandler, notFoundHandler } from "./error-handler.js";
+import { healthRouter } from "./routes/health.js";
+import { nftRouter } from "./routes/nft.js";
 
 export interface ServerConfig {
   /**

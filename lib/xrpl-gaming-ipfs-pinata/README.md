@@ -1,4 +1,4 @@
-# @workspace/xrpl-gaming-ipfs-pinata
+# xrpl-gaming-ipfs-pinata
 
 Pinata IPFS adapter for the XRPL Gaming SDK. Uploads NFT metadata JSON to Pinata and returns a public IPFS URI plus a gateway URL.
 
@@ -14,7 +14,7 @@ Both modes pin the metadata to the public IPFS network and return the same shape
 ## Install
 
 ```bash
-pnpm add @workspace/xrpl-gaming-ipfs-pinata
+pnpm add xrpl-gaming-ipfs-pinata
 ```
 
 ## Usage with a JWT (recommended)
@@ -22,8 +22,8 @@ pnpm add @workspace/xrpl-gaming-ipfs-pinata
 Get a JWT from https://app.pinata.cloud/developers/api-keys, then:
 
 ```ts
-import { XRPLGamingSDK } from "@workspace/xrpl-gaming-core";
-import { PinataAdapter } from "@workspace/xrpl-gaming-ipfs-pinata";
+import { XRPLGamingSDK } from "xrpl-gaming-core";
+import { PinataAdapter } from "xrpl-gaming-ipfs-pinata";
 
 const ipfs = new PinataAdapter({
   jwt: process.env.PINATA_JWT!,

@@ -1,7 +1,7 @@
 import { Client, Wallet } from "xrpl";
-import { ManagedNotAvailableError, XrplGamingError } from "./errors";
-import { NftManager } from "./nft-manager";
-import type { ManagedConfig, SdkConfig, SelfHostedConfig } from "./types";
+import { ManagedNotAvailableError, XrplGamingError } from "./errors.js";
+import { NftManager } from "./nft-manager.js";
+import type { ManagedConfig, SdkConfig, SelfHostedConfig } from "./types.js";
 
 function isManagedConfig(config: SdkConfig): config is ManagedConfig {
   // Treat the *presence* of `managedApiKey` (even if empty) as an attempt

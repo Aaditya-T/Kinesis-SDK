@@ -1,2 +1,2 @@
-export { PostgresAdapter } from "./postgres-adapter";
-export type { PostgresConfig } from "./postgres-adapter";
+export { PostgresAdapter } from "./postgres-adapter.js";
+export type { PostgresConfig } from "./postgres-adapter.js";

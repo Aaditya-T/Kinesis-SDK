@@ -1,4 +1,4 @@
-import type { NftMetadata, NftRecord } from "./types";
+import type { NftMetadata, NftRecord } from "./types.js";
 
 export interface IDBAdapter {
   init(): Promise<void>;

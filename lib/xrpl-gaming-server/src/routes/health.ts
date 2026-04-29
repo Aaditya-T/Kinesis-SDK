@@ -1,5 +1,5 @@
 import { Router, type IRouter } from "express";
-import { HealthResponseSchema } from "../schemas";
+import { HealthResponseSchema } from "../schemas.js";
 
 const startedAt = Date.now();
 

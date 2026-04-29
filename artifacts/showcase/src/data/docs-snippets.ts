@@ -1,11 +1,11 @@
 export const SNIPPETS = {
-  install: `pnpm add @workspace/xrpl-gaming-core \\
-          @workspace/xrpl-gaming-db-postgres \\
-          @workspace/xrpl-gaming-ipfs-pinata`,
+  install: `pnpm add xrpl-gaming-core \\
+          xrpl-gaming-db-postgres \\
+          xrpl-gaming-ipfs-pinata`,
 
-  quickStart: `import { XRPLGamingSDK } from "@workspace/xrpl-gaming-core";
-import { PostgresAdapter } from "@workspace/xrpl-gaming-db-postgres";
-import { PinataAdapter } from "@workspace/xrpl-gaming-ipfs-pinata";
+  quickStart: `import { XRPLGamingSDK } from "xrpl-gaming-core";
+import { PostgresAdapter } from "xrpl-gaming-db-postgres";
+import { PinataAdapter } from "xrpl-gaming-ipfs-pinata";
 
 const sdk = new XRPLGamingSDK({
   xrpl: {
@@ -31,7 +31,7 @@ const result = await sdk.nft.mint({
 console.log(result.record.tokenId);    // "00080000ABCD..."
 console.log(result.record.metadataUri); // "ipfs://bafy..."`,
 
-  walletMissing: `import { XRPLGamingSDK } from "@workspace/xrpl-gaming-core";
+  walletMissing: `import { XRPLGamingSDK } from "xrpl-gaming-core";
 
 // Throws synchronously in the constructor:
 //   XrplGamingError:
@@ -54,7 +54,7 @@ console.log("Seed:   ", issuer.seed);
   managedAttempt: `// Managed mode is reserved for a future release.
 // Passing \`managedApiKey\` today throws ManagedNotAvailableError —
 // you must use a self-hosted config.
-import { XRPLGamingSDK, ManagedNotAvailableError } from "@workspace/xrpl-gaming-core";
+import { XRPLGamingSDK, ManagedNotAvailableError } from "xrpl-gaming-core";
 
 try {
   new XRPLGamingSDK({ managedApiKey: "key_..." } as never);
@@ -64,7 +64,7 @@ try {
   }
 }`,
 
-  postgresAdapter: `import { PostgresAdapter } from "@workspace/xrpl-gaming-db-postgres";
+  postgresAdapter: `import { PostgresAdapter } from "xrpl-gaming-db-postgres";
 
 const db = new PostgresAdapter({
   connectionString: process.env.DATABASE_URL!,
@@ -80,7 +80,7 @@ const dbShared = new PostgresAdapter({
   pool,
 });`,
 
-  mongoAdapter: `import { MongoAdapter } from "@workspace/xrpl-gaming-db-mongodb";
+  mongoAdapter: `import { MongoAdapter } from "xrpl-gaming-db-mongodb";
 
 const db = new MongoAdapter({
   connectionString: process.env.MONGO_URL!,
@@ -88,7 +88,7 @@ const db = new MongoAdapter({
   collectionName: "nfts", // optional
 });`,
 
-  customAdapter: `import type { IDBAdapter, NftRecord } from "@workspace/xrpl-gaming-core";
+  customAdapter: `import type { IDBAdapter, NftRecord } from "xrpl-gaming-core";
 
 class MyAdapter implements IDBAdapter {
   async init() { /* create tables / indexes */ }
@@ -102,7 +102,7 @@ class MyAdapter implements IDBAdapter {
   async deleteNft(tokenId: string) { /* DELETE */ }
 }`,
 
-  pinataAdapter: `import { PinataAdapter } from "@workspace/xrpl-gaming-ipfs-pinata";
+  pinataAdapter: `import { PinataAdapter } from "xrpl-gaming-ipfs-pinata";
 
 // JWT (preferred) — generate one in your Pinata dashboard
 const ipfs = new PinataAdapter({ jwt: process.env.PINATA_JWT! });
@@ -120,9 +120,9 @@ const ipfsCustom = new PinataAdapter({
 });`,
 
   inProcessExpress: `import express from "express";
-import { XRPLGamingSDK } from "@workspace/xrpl-gaming-core";
-import { PostgresAdapter } from "@workspace/xrpl-gaming-db-postgres";
-import { PinataAdapter } from "@workspace/xrpl-gaming-ipfs-pinata";
+import { XRPLGamingSDK } from "xrpl-gaming-core";
+import { PostgresAdapter } from "xrpl-gaming-db-postgres";
+import { PinataAdapter } from "xrpl-gaming-ipfs-pinata";
 
 const sdk = new XRPLGamingSDK({
   xrpl: {
@@ -149,10 +149,10 @@ app.post("/loot", async (req, res) => {
 
 app.listen(3000);`,
 
-  standaloneServer: `import { createServer } from "@workspace/xrpl-gaming-server";
-import { XRPLGamingSDK } from "@workspace/xrpl-gaming-core";
-import { PostgresAdapter } from "@workspace/xrpl-gaming-db-postgres";
-import { PinataAdapter } from "@workspace/xrpl-gaming-ipfs-pinata";
+  standaloneServer: `import { createServer } from "xrpl-gaming-server";
+import { XRPLGamingSDK } from "xrpl-gaming-core";
+import { PostgresAdapter } from "xrpl-gaming-db-postgres";
+import { PinataAdapter } from "xrpl-gaming-ipfs-pinata";
 
 const sdk = new XRPLGamingSDK({
   xrpl: {
@@ -277,7 +277,7 @@ const single          = await sdk.nft.get(tokenId);`,
   XrplGamingError,
   XrplTransactionError,
   ManagedNotAvailableError,
-} from "@workspace/xrpl-gaming-core";
+} from "xrpl-gaming-core";
 
 try {
   await sdk.nft.mint({ metadata: { name: "Sword" } });
@@ -322,7 +322,7 @@ function StatusBadge() {
 //   pnpm --filter @workspace/api-spec run codegen
 // Hooks are then re-emitted into lib/api-client-react/src/generated/.`,
 
-  types: `// All of these are exported from @workspace/xrpl-gaming-core
+  types: `// All of these are exported from xrpl-gaming-core
 
 interface SelfHostedConfig {
   xrpl: {
@@ -376,8 +376,8 @@ interface BurnResult     { txHash: string; }`,
                        ▼
 ┌──────────────────────────────────────────────────────┐
 │  Your game backend                                   │
-│  └─ embeds @workspace/xrpl-gaming-core directly,     │
-│     OR proxies to @workspace/xrpl-gaming-server      │
+│  └─ embeds xrpl-gaming-core directly,     │
+│     OR proxies to xrpl-gaming-server      │
 └──────────────────────┬───────────────────────────────┘
                        │   in-process method calls
                        ▼

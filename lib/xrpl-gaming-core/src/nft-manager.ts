@@ -6,7 +6,7 @@ import type {
   NFTokenModify,
   Wallet,
 } from "xrpl";
-import { XrplGamingError, XrplTransactionError } from "./errors";
+import { XrplGamingError, XrplTransactionError } from "./errors.js";
 import type {
   BurnResult,
   MintParams,
@@ -17,12 +17,12 @@ import type {
   TransferResult,
   UpdateParams,
   UpdateResult,
-} from "./types";
+} from "./types.js";
 import {
   extractOfferIdFromMeta,
   extractTokenIdFromMeta,
   uriToHex,
-} from "./util";
+} from "./util.js";
 
 const TF_TRANSFERABLE = 0x00000008;
 const TF_MUTABLE = 0x00000010;

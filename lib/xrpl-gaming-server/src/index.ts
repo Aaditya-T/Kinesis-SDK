@@ -1,9 +1,9 @@
-export { createServer } from "./server";
-export type { ServerConfig } from "./server";
-export { apiKeyAuth } from "./middleware";
-export { errorHandler, notFoundHandler } from "./error-handler";
-export { healthRouter } from "./routes/health";
-export { nftRouter } from "./routes/nft";
+export { createServer } from "./server.js";
+export type { ServerConfig } from "./server.js";
+export { apiKeyAuth } from "./middleware.js";
+export { errorHandler, notFoundHandler } from "./error-handler.js";
+export { healthRouter } from "./routes/health.js";
+export { nftRouter } from "./routes/nft.js";
 export {
   BurnResponseSchema,
   ErrorResponseSchema,
@@ -17,11 +17,11 @@ export {
   TransferResponseSchema,
   UpdateRequestSchema,
   UpdateResponseSchema,
-} from "./schemas";
+} from "./schemas.js";
 export type {
   ErrorResponse,
   MintRequest,
   NftRecordResponse,
   TransferRequest,
   UpdateRequest,
-} from "./schemas";
+} from "./schemas.js";

@@ -1,11 +1,11 @@
-# @workspace/xrpl-gaming-core
+# xrpl-gaming-core
 
 The core of the XRPL Gaming SDK. Provides the `XRPLGamingSDK` class and the pluggable adapter interfaces (`IDBAdapter`, `IIPFSAdapter`) that power it.
 
 ## Install
 
 ```bash
-pnpm add @workspace/xrpl-gaming-core @workspace/xrpl-gaming-ipfs-pinata @workspace/xrpl-gaming-db-postgres
+pnpm add xrpl-gaming-core xrpl-gaming-ipfs-pinata xrpl-gaming-db-postgres
 ```
 
 ## Self-hosted usage
@@ -13,9 +13,9 @@ pnpm add @workspace/xrpl-gaming-core @workspace/xrpl-gaming-ipfs-pinata @workspa
 You bring your own XRPL wallet seed, XRPL node URL, database, and Pinata account. The SDK glues them together.
 
 ```ts
-import { XRPLGamingSDK } from "@workspace/xrpl-gaming-core";
-import { PinataAdapter } from "@workspace/xrpl-gaming-ipfs-pinata";
-import { PostgresAdapter } from "@workspace/xrpl-gaming-db-postgres";
+import { XRPLGamingSDK } from "xrpl-gaming-core";
+import { PinataAdapter } from "xrpl-gaming-ipfs-pinata";
+import { PostgresAdapter } from "xrpl-gaming-db-postgres";
 
 const sdk = new XRPLGamingSDK({
   xrpl: {
@@ -68,7 +68,7 @@ await sdk.close();
 The managed tier is not yet available. Constructing the SDK with `managedApiKey` throws a `ManagedNotAvailableError` with instructions to use the self-hosted path or get in touch.
 
 ```ts
-import { XRPLGamingSDK } from "@workspace/xrpl-gaming-core";
+import { XRPLGamingSDK } from "xrpl-gaming-core";
 
 // Will throw ManagedNotAvailableError until the hosted backend is online.
 const sdk = new XRPLGamingSDK({ managedApiKey: "xg_live_xxx" });
@@ -101,4 +101,4 @@ Your application is responsible for detecting acceptance (poll `account_nfts` fo
 
 ## Build your own adapter
 
-Implement `IDBAdapter` or `IIPFSAdapter` for any backend you like. See `@workspace/xrpl-gaming-db-mongodb` and `@workspace/xrpl-gaming-ipfs-pinata` for reference implementations.
+Implement `IDBAdapter` or `IIPFSAdapter` for any backend you like. See `xrpl-gaming-db-mongodb` and `xrpl-gaming-ipfs-pinata` for reference implementations.

@@ -1,26 +1,69 @@
 {
-  "name": "@workspace/xrpl-gaming-server",
-  "version": "0.0.0",
-  "private": true,
+  "name": "xrpl-gaming-server",
+  "version": "0.1.0",
+  "description": "Self-hostable HTTP/REST server that exposes the Kineses XRPL DynamicNFT Gaming SDK over a JSON API. Designed for game studios on non-JavaScript platforms (Unity, Unreal, native mobile) that cannot import the Node.js SDK directly.",
+  "keywords": [
+    "xrpl",
+    "nft",
+    "dynamic-nft",
+    "gaming",
+    "rest",
+    "express",
+    "kineses",
+    "sdk",
+    "server"
+  ],
+  "author": "Aaditya T",
+  "license": "MIT",
+  "homepage": "https://github.com/Aaditya-T/Kinessis-SDK/tree/main/lib/xrpl-gaming-server#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aaditya-T/Kinessis-SDK.git",
+    "directory": "lib/xrpl-gaming-server"
+  },
+  "bugs": {
+    "url": "https://github.com/Aaditya-T/Kinessis-SDK/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "workspace": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
   },
   "bin": {
     "xrpl-gaming-server": "./dist/cli.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "docker-compose.example.yml",
+    ".env.example"
+  ],
   "scripts": {
-    "build": "node ./build.mjs",
+    "build": "tsc -p tsconfig.json && node ./build.mjs",
+    "prepack": "tsc -p tsconfig.json && node ./build.mjs",
     "start": "node --enable-source-maps ./dist/cli.js",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@workspace/xrpl-gaming-core": "workspace:*",
-    "@workspace/xrpl-gaming-db-postgres": "workspace:*",
-    "@workspace/xrpl-gaming-ipfs-pinata": "workspace:*",
     "express": "^5",
     "pino": "^9",
     "pino-http": "^10",
+    "xrpl-gaming-core": "workspace:*",
+    "xrpl-gaming-db-postgres": "workspace:*",
+    "xrpl-gaming-ipfs-pinata": "workspace:*",
     "zod": "catalog:"
   },
   "devDependencies": {

@@ -29,9 +29,9 @@ const nodeExample: CodeExample = {
   description:
     "Embed the SDK directly in a Node-based game server (HTML5, Phaser, PixiJS, custom).",
   language: "typescript",
-  code: `import { XRPLGamingSDK } from "@workspace/xrpl-gaming-core";
-import { PinataAdapter } from "@workspace/xrpl-gaming-ipfs-pinata";
-import { PostgresAdapter } from "@workspace/xrpl-gaming-db-postgres";
+  code: `import { XRPLGamingSDK } from "xrpl-gaming-core";
+import { PinataAdapter } from "xrpl-gaming-ipfs-pinata";
+import { PostgresAdapter } from "xrpl-gaming-db-postgres";
 
 const sdk = new XRPLGamingSDK({
   xrpl: {
@@ -63,7 +63,7 @@ const discordExample: CodeExample = {
     "A discord.js slash-command handler that mints a character NFT to the player who runs it.",
   language: "typescript",
   code: `import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
-import { XRPLGamingSDK } from "@workspace/xrpl-gaming-core";
+import { XRPLGamingSDK } from "xrpl-gaming-core";
 
 // Created once at bot startup — share across all command handlers.
 const sdk = new XRPLGamingSDK({ /* ...adapters... */ });

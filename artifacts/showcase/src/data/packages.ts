@@ -10,7 +10,7 @@ export interface PackageInfo {
 export const PACKAGES: PackageInfo[] = [
   {
     name: "Core",
-    pkg: "@workspace/xrpl-gaming-core",
+    pkg: "xrpl-gaming-core",
     tagline: "The SDK itself.",
     description:
       "Wraps XRPL DynamicNFT operations (mint, modify, sell-offer, burn) behind a game-friendly facade and orchestrates the DB and IPFS adapters.",
@@ -19,7 +19,7 @@ export const PACKAGES: PackageInfo[] = [
   },
   {
     name: "Postgres adapter",
-    pkg: "@workspace/xrpl-gaming-db-postgres",
+    pkg: "xrpl-gaming-db-postgres",
     tagline: "Persist NFT records in PostgreSQL.",
     description:
       "Implements IDBAdapter against pg. Creates the xrpl_gaming_nfts table on init() (or you can pass an existing pool).",
@@ -28,7 +28,7 @@ export const PACKAGES: PackageInfo[] = [
   },
   {
     name: "MongoDB adapter",
-    pkg: "@workspace/xrpl-gaming-db-mongodb",
+    pkg: "xrpl-gaming-db-mongodb",
     tagline: "Persist NFT records in MongoDB.",
     description:
       "Implements IDBAdapter against the official mongodb driver. Stores one document per NFT and indexes playerId / ownerAddress / collection.",
@@ -37,7 +37,7 @@ export const PACKAGES: PackageInfo[] = [
   },
   {
     name: "Pinata IPFS adapter",
-    pkg: "@workspace/xrpl-gaming-ipfs-pinata",
+    pkg: "xrpl-gaming-ipfs-pinata",
     tagline: "Pin NFT metadata JSON to IPFS via Pinata.",
     description:
       "Uploads metadata JSON on mint/update and returns a stable ipfs://CID URI plus a public HTTPS gateway URL. JWT or legacy API-key auth.",
@@ -45,7 +45,7 @@ export const PACKAGES: PackageInfo[] = [
   },
   {
     name: "Standalone server",
-    pkg: "@workspace/xrpl-gaming-server",
+    pkg: "xrpl-gaming-server",
     tagline: "Drop-in REST API in front of the SDK.",
     description:
       "Express app exposing POST /nft/mint, PATCH /nft/:tokenId, POST /nft/:tokenId/transfer, DELETE /nft/:tokenId, and GET /nft/:tokenId with x-api-key auth and zod request validation. Use it directly or mount its router into your own Express app.",

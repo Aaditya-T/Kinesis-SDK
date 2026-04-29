@@ -47,3 +47,7 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+.agents/
+
+# pnpm local content-addressable store (recreated by pnpm install)
+.pnpm-store/
