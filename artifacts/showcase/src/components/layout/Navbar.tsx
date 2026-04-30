@@ -9,10 +9,10 @@ export function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/70 bg-black/75 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <img src="/logo.png" alt="Kineses logo" className="w-9 h-9 rounded-md object-contain" />
+          <img src="/logo.png" alt="Kinesis logo" className="w-9 h-9 rounded-md object-contain" />
           <div className="leading-tight">
             <div className="font-display font-bold text-lg tracking-tight">
-              Kineses<span className="text-primary">.SDK</span>
+              Kinesis<span className="text-primary">.SDK</span>
             </div>
             <div className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
               by Blockcelerate
@@ -30,7 +30,7 @@ export function Navbar() {
             href={GITHUB_REPO_URL}
             target="_blank"
             rel="noreferrer"
-            aria-label="View the Kineses SDK repository on GitHub"
+            aria-label="View the Kinesis SDK repository on GitHub"
             className="text-muted-foreground hover:text-foreground transition-colors"
           >
             <Github className="w-5 h-5" />

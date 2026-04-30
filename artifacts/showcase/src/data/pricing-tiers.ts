@@ -33,7 +33,7 @@ export const pricingTiers: PricingTier[] = [
     ],
     cta: {
       label: "Get the SDK on GitHub",
-      href: "https://github.com/Aaditya-T/Kinessis-SDK",
+      href: "https://github.com/Aaditya-T/Kinesis-SDK",
     },
   },
   {

@@ -9,9 +9,9 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="flex flex-col items-center md:items-start gap-2">
           <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="Kineses logo" className="w-8 h-8 rounded-md object-contain" />
+            <img src="/logo.png" alt="Kinesis logo" className="w-8 h-8 rounded-md object-contain" />
             <span className="font-display font-bold text-lg tracking-tight">
-              Kineses<span className="text-primary">.SDK</span>
+              Kinesis<span className="text-primary">.SDK</span>
             </span>
           </div>
           <p className="text-sm text-muted-foreground text-center md:text-left max-w-sm">

@@ -27,11 +27,11 @@ export default function Docs() {
             </div>
             <img
               src="/logo.png"
-              alt="Kineses logo"
+              alt="Kinesis logo"
               className="w-14 h-14 object-contain rounded-lg mb-4"
             />
             <h1 className="text-4xl sm:text-5xl font-display font-bold tracking-tight mb-4">
-              The complete Kineses SDK guide by Blockcelerate
+              The complete Kinesis SDK guide by Blockcelerate
             </h1>
             <p className="text-lg text-muted-foreground max-w-3xl leading-relaxed">
               Everything you need to ship XRPL DynamicNFTs in your game — the package map, how the
@@ -50,7 +50,7 @@ export default function Docs() {
             {/* OVERVIEW */}
             <Section id="overview" eyebrow="Getting started" title="Overview">
               <p>
-                <strong>Kineses SDK</strong> (shipped on npm under the{" "}
+                <strong>Kinesis SDK</strong> (shipped on npm under the{" "}
                 <code>xrpl-gaming-*</code> packages) is a TypeScript toolkit for issuing and
                 mutating <strong>DynamicNFTs (XLS-46)</strong> on the XRP Ledger. It is built for
                 indie game studios who want on-chain assets that <em>change as players play</em>{" "}
@@ -81,7 +81,7 @@ export default function Docs() {
                 </li>
               </ul>
               <Callout variant="info" title="A note on the name">
-                Kineses SDK is the public brand. On the wire and in npm, the packages currently
+                Kinesis SDK is the public brand. On the wire and in npm, the packages currently
                 ship as <code>xrpl-gaming-*</code> and the main class is{" "}
                 <code>XRPLGamingSDK</code>. The two will reconcile in a future release; until then,
                 use the package names you see in the install commands.
@@ -283,7 +283,7 @@ export default function Docs() {
                 <code>xrpl-gaming-server</code>. It wraps the SDK in an Express app
                 with <code>x-api-key</code> auth and zod request validation:
               </p>
-              <CodeBlock code={SNIPPETS.standaloneServer} language="ts" filename="kineses-server/src/index.ts" />
+              <CodeBlock code={SNIPPETS.standaloneServer} language="ts" filename="kinesis-server/src/index.ts" />
               <p>Then talk to it from anything that speaks HTTP:</p>
               <CodeBlock code={SNIPPETS.serverCurl} language="bash" />
               <Callout variant="info" title="Routes you get for free">

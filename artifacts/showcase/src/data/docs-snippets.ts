@@ -84,7 +84,7 @@ const dbShared = new PostgresAdapter({
 
 const db = new MongoAdapter({
   connectionString: process.env.MONGO_URL!,
-  databaseName: "kineses",
+  databaseName: "kinesis",
   collectionName: "nfts", // optional
 });`,
 
@@ -169,7 +169,7 @@ const app = createServer({
   apiKey: process.env.GAME_BACKEND_API_KEY!,
 });
 
-app.listen(8080, () => console.log("Kineses API listening on :8080"));`,
+app.listen(8080, () => console.log("Kinesis API listening on :8080"));`,
 
   serverCurl: `# Mint a new NFT for a player
 curl -X POST http://localhost:8080/nft/mint \\

@@ -5,4 +5,4 @@
  */
 
 export const GITHUB_REPO_URL =
-  "https://github.com/Aaditya-T/Kinessis-SDK";
+  "https://github.com/Aaditya-T/Kinesis-SDK";
