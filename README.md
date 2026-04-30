@@ -121,7 +121,7 @@ lib/                    # publishable workspace packages
   db/                   # internal — Drizzle schema for the demo api-server
 artifacts/
   api-server/           # demo OpenAPI backend (consumes lib/api-zod, lib/db)
-  showcase/             # marketing + docs site (https://kineses.dev/docs)
+  showcase/             # marketing + docs site
 ```
 
 The four `lib/api-*` and `lib/db` packages are workspace-internal, marked
