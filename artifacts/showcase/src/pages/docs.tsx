@@ -8,7 +8,22 @@ import { DocsSidebar, DocsMobileToc } from "@/components/docs/DocsSidebar";
 import { Section, Callout } from "@/components/docs/Section";
 import { SNIPPETS } from "@/data/docs-snippets";
 import { PACKAGES } from "@/data/packages";
-import architectureDiagram from "@assets/image_1777534704458.png";
+import { MermaidChart } from "@/components/docs/MermaidChart";
+
+const ARCHITECTURE_CHART = `flowchart TD
+  Client["<b>Your game client</b><br/>Unity · Phaser · browser · Discord bot · mobile"]
+  Backend["<b>Your game backend</b><br/>embeds xrpl-gaming-core directly<br/><i>or</i> proxies to xrpl-gaming-server"]
+  SDK["<b>XRPLGamingSDK</b><br/>signs every tx with issuer wallet"]
+  XRPL["<b>XRPL node</b><br/>testnet / mainnet"]
+  DB["<b>IDBAdapter</b><br/>Postgres · MongoDB · custom"]
+  IPFS["<b>IIPFSAdapter</b><br/>Pinata · custom"]
+
+  Client -->|"HTTPS + your own auth"| Backend
+  Backend -->|"in-process method calls"| SDK
+  SDK --> XRPL
+  SDK --> DB
+  SDK --> IPFS
+`;
 
 export default function Docs() {
   return (
@@ -96,11 +111,7 @@ export default function Docs() {
                 — which signs XRPL transactions with your <strong>issuer wallet</strong> and fans
                 out to the DB and IPFS adapters you injected.
               </p>
-              <img
-                src={architectureDiagram}
-                alt="Architecture diagram showing client, backend, SDK, XRPL node, DB adapter, and IPFS adapter flow"
-                className="w-full rounded-xl border border-border/60 bg-card shadow-sm my-6"
-              />
+              <MermaidChart chart={ARCHITECTURE_CHART} />
               <p>The four boundaries to remember:</p>
               <ul>
                 <li>

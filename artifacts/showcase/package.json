@@ -75,6 +75,7 @@
     "zod": "catalog:"
   },
   "dependencies": {
+    "mermaid": "^11.14.0",
     "prism-react-renderer": "^2.4.1",
     "xrpl": "^4.6.0"
   }
