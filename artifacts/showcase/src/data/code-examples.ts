@@ -25,9 +25,9 @@ export interface CodeExample {
 
 const nodeExample: CodeExample = {
   id: "node",
-  label: "Node.js / HTML5",
+  label: "Node.js",
   description:
-    "Embed the SDK directly in a Node-based game server (HTML5, Phaser, PixiJS, custom).",
+    "Embed the SDK directly in a Node-based game server.",
   language: "typescript",
   code: `import { XRPLGamingSDK } from "xrpl-gaming-core";
 import { PinataAdapter } from "xrpl-gaming-ipfs-pinata";

@@ -51,3 +51,5 @@ Thumbs.db
 
 # pnpm local content-addressable store (recreated by pnpm install)
 .pnpm-store/
+
+attached_assets/
