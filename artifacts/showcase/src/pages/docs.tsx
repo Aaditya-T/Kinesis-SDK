@@ -8,6 +8,7 @@ import { DocsSidebar, DocsMobileToc } from "@/components/docs/DocsSidebar";
 import { Section, Callout } from "@/components/docs/Section";
 import { SNIPPETS } from "@/data/docs-snippets";
 import { PACKAGES } from "@/data/packages";
+import architectureDiagram from "@assets/image_1777534704458.png";
 
 export default function Docs() {
   return (
@@ -95,7 +96,11 @@ export default function Docs() {
                 — which signs XRPL transactions with your <strong>issuer wallet</strong> and fans
                 out to the DB and IPFS adapters you injected.
               </p>
-              <CodeBlock code={SNIPPETS.composeArchitecture} language="text" />
+              <img
+                src={architectureDiagram}
+                alt="Architecture diagram showing client, backend, SDK, XRPL node, DB adapter, and IPFS adapter flow"
+                className="w-full rounded-xl border border-border/60 bg-card shadow-sm my-6"
+              />
               <p>The four boundaries to remember:</p>
               <ul>
                 <li>
