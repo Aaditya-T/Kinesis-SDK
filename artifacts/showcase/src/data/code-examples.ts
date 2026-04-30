@@ -82,7 +82,7 @@ export async function execute(i: ChatInputCommandInteraction) {
   });
 
   await i.editReply(
-    `Minted your starter NFT! Token ID: \`${record.tokenId}\``,
+    \`Minted your starter NFT! Token ID: \\\`\${record.tokenId}\\\`\`,
   );
 }`,
 };
