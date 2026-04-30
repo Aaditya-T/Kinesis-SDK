@@ -25,7 +25,7 @@ export interface CodeExample {
 
 const nodeExample: CodeExample = {
   id: "node",
-  label: "Node.js / HTML5",
+  label: "Node.js",
   description:
     "Embed the SDK directly in a Node-based game server (HTML5, Phaser, PixiJS, custom).",
   language: "typescript",
