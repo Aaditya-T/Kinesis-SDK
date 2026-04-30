@@ -25,9 +25,9 @@ export interface CodeExample {
 
 const nodeExample: CodeExample = {
   id: "node",
-  label: "Node.js / HTML5",
+  label: "Node.js",
   description:
-    "Embed the SDK directly in a Node-based game server (HTML5, Phaser, PixiJS, custom).",
+    "Embed the SDK directly in a Node-based game server (Phaser, PixiJS, custom).",
   language: "typescript",
   code: `import { XRPLGamingSDK } from "xrpl-gaming-core";
 import { PinataAdapter } from "xrpl-gaming-ipfs-pinata";
@@ -82,7 +82,7 @@ export async function execute(i: ChatInputCommandInteraction) {
   });
 
   await i.editReply(
-    \`Minted your starter NFT! Token ID: \\\`\${record.tokenId}\\\`\`,
+    `Minted your starter NFT! Token ID: \`${record.tokenId}\``,
   );
 }`,
 };
@@ -105,8 +105,8 @@ public class XrplGamingClient : MonoBehaviour
 
     public IEnumerator MintCharacter(string playerId)
     {
-        var body = "{\\"metadata\\":{\\"name\\":\\"Knight\\",\\"class\\":\\"Knight\\",\\"level\\":1,\\"power\\":10},\\"playerId\\":\\""
-                 + playerId + "\\"}";
+        var body = "{\"metadata\":{\"name\":\"Knight\",\"class\":\"Knight\",\"level\":1,\"power\":10},\"playerId\":\""
+                 + playerId + "\"}";
 
         using var req = new UnityWebRequest(serverUrl + "/nft/mint", "POST");
         req.uploadHandler   = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body));
@@ -152,7 +152,7 @@ interface MintResponse {
 }
 
 async function mintCharacter(playerId: string): Promise<MintResponse> {
-  const res = await fetch(\`\${API_BASE}/nft/mint\`, {
+  const res = await fetch(`${API_BASE}/nft/mint`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
@@ -165,7 +165,7 @@ async function mintCharacter(playerId: string): Promise<MintResponse> {
   });
   if (!res.ok) {
     const err = await res.json().catch(() => null);
-    throw new Error(err?.error?.message ?? \`Mint failed: \${res.status}\`);
+    throw new Error(err?.error?.message ?? `Mint failed: ${res.status}`);
   }
   return (await res.json()) as MintResponse;
 }`,
