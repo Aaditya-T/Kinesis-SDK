@@ -236,9 +236,12 @@ async function mintLoot(item: { name: string; rarity: string }) {
   // Optional: tag who owns it in your game
   playerId: "player-42",
   collection: "season-1",
-  // Optional: flags (default both true)
-  transferable: true,
-  mutable: true,
+  // Optional XRPL flags — all map directly to NFTokenMint flags:
+  transferable: true,  // tfTransferable (default true)  — players can trade
+  mutable:      true,  // tfMutable      (default true)  — issuer can update()
+  burnable:     false, // tfBurnable     (default false) — issuer can burn even
+                       //                                  after a player owns it
+  onlyXRP:      false, // tfOnlyXRP      (default false) — sell offers must be XRP
   // Optional: organize on-ledger
   taxon: 100,
   // Optional: royalty in 0.01% units (250 = 2.5%)
@@ -257,6 +260,16 @@ console.log(result.offerId);            // present iff destination was set`,
     level: 2,
     xp: 1500,
   },
+  // ownerSource: "onchain" (default) — ask Clio's nft_info RPC for
+  // the current holder so the SDK can attach the XLS-46 Owner field
+  // when the player already holds the token. REQUIRES the SDK's
+  // nodeUrl to point at a Clio server (most public clusters do —
+  // wss://xrplcluster.com, wss://s1.ripple.com, wss://s2.ripple.com
+  // are all fine; rippled-only nodes are not).
+  //
+  // ownerSource: "db" — skip the network round-trip and trust the
+  // SDK's DB record instead. Only safe if you reliably call
+  // sdk.nft.markTransferComplete after every accepted sell offer.
 });
 
 console.log(updated.record.metadataUri); // new ipfs://...
@@ -264,13 +277,12 @@ console.log(updated.txHash);             // NFTokenModify tx hash
 
 // Internally:
 //  1. Re-uploads the new metadata JSON to IPFS (new CID)
-//  2. Submits an NFTokenModify transaction with the new URI.
-//     If the DB record shows the NFT has moved on from the issuer
-//     (e.g. the player accepted the sell offer and you called
-//     sdk.nft.markTransferComplete), the SDK auto-attaches the
-//     XLS-46 \`Owner\` field. Without it the ledger would return
+//  2. Resolves the current owner (Clio nft_info, or DB).
+//  3. Submits an NFTokenModify transaction with the new URI. If the
+//     resolved owner isn't the issuer wallet, the SDK auto-attaches
+//     the XLS-46 \`Owner\` field — without it the ledger would return
 //     tecNO_ENTRY / tecNO_PERMISSION on player-held tokens.
-//  3. Updates the DB record so reads return the new state immediately`,
+//  4. Updates the DB record so reads return the new state immediately`,
 
   flowTransfer: `// Two-step XRPL transfer: issuer creates a sell offer,
 // player accepts it from their wallet.
@@ -361,13 +373,19 @@ interface MintParams {
   metadata: NftMetadata;
   playerId?: string;
   collection?: string;
-  transferable?: boolean; // default true
-  mutable?: boolean;      // default true
+  transferable?: boolean; // default true   (tfTransferable)
+  mutable?: boolean;      // default true   (tfMutable, XLS-46)
+  burnable?: boolean;     // default false  (tfBurnable)
+  onlyXRP?: boolean;      // default false  (tfOnlyXRP)
   taxon?: number;
   transferFee?: number;
   destination?: string;
 }
-interface UpdateParams   { metadata: NftMetadata; }
+interface UpdateParams {
+  metadata: NftMetadata;
+  // "onchain" (default) — Clio nft_info; "db" — DB record.
+  ownerSource?: "onchain" | "db";
+}
 interface TransferParams { destination: string; amount?: string; }
 
 interface NftRecord {

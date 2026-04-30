@@ -55,6 +55,11 @@ const { record, txHash } = await sdk.nft.mint({
 });
 
 // Later — level up. Updates the on-chain URI via NFTokenModify.
+// By default the SDK queries the Clio `nft_info` RPC to find the
+// current owner so it can attach the XLS-46 `Owner` field on
+// player-held NFTs. Most public XRPL clusters expose Clio; if you
+// run a rippled-only node, pass `ownerSource: "db"` and reconcile
+// owners with `sdk.nft.markTransferComplete()` yourself.
 await sdk.nft.update(record.tokenId, {
   metadata: { ...record.metadata, level: 2 },
 });

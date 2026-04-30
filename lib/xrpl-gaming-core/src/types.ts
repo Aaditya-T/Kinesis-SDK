@@ -37,8 +37,29 @@ export interface MintParams {
   playerId?: string;
   collection?: string;
   destination?: string;
+  /**
+   * `tfTransferable` (0x00000008). When `true` (default) the NFT can be
+   * transferred between non-issuer wallets. When `false` it can only ever
+   * move back to the issuer.
+   */
   transferable?: boolean;
+  /**
+   * `tfMutable` (0x00000010, XLS-46). When `true` (default) the issuer can
+   * later call `nft.update()` / `NFTokenModify` to change the metadata URI.
+   * When `false` the metadata is frozen at mint and `update()` will fail.
+   */
   mutable?: boolean;
+  /**
+   * `tfBurnable` (0x00000001). When `true` the *issuer* can burn the NFT
+   * even after a player owns it. Default `false` — only the current holder
+   * can burn.
+   */
+  burnable?: boolean;
+  /**
+   * `tfOnlyXRP` (0x00000002). When `true` any sell/buy offers for this NFT
+   * must be denominated in XRP (no IOUs). Default `false`.
+   */
+  onlyXRP?: boolean;
   taxon?: number;
   transferFee?: number;
 }
@@ -51,6 +72,23 @@ export interface MintResult {
 
 export interface UpdateParams {
   metadata: NftMetadata;
+  /**
+   * How `update()` should resolve the current on-chain owner so it can
+   * attach the XLS-46 `Owner` field to `NFTokenModify` when the issuer is
+   * acting on a token they no longer hold.
+   *
+   * - `"onchain"` (default) — query the XRPL via the Clio-only `nft_info`
+   *   RPC. Always accurate, but **requires the SDK's `nodeUrl` to point at
+   *   a Clio server** (most public XRPL clusters expose Clio; self-hosted
+   *   rippled-only setups do not).
+   * - `"db"` — read `ownerAddress` from the SDK's DB record. Cheaper (no
+   *   network round-trip) and works against any XRPL node, but only
+   *   correct if your application has been calling
+   *   `sdk.nft.markTransferComplete(tokenId, newOwner)` after every
+   *   accepted sell offer. If you skip that reconciliation the modify
+   *   will fail with `tecNO_ENTRY`.
+   */
+  ownerSource?: "onchain" | "db";
 }
 
 export interface UpdateResult {

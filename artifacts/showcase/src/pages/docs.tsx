@@ -376,12 +376,50 @@ export default function Docs() {
                 <code>Owner</code> field whenever the issuer is mutating a token they no longer
                 hold (typical once a player has accepted the sell offer from{" "}
                 <code>mint({"{ destination }"})</code> or <code>transfer()</code>). The SDK
-                detects this from the DB record and attaches <code>Owner</code> automatically —
-                so as long as you call <code>sdk.nft.markTransferComplete(tokenId, newOwner)</code>{" "}
-                once a transfer settles, subsequent <code>update()</code> calls keep working.
-                Skip that reconciliation step and the SDK will keep submitting modifies without{" "}
-                <code>Owner</code> and the ledger will reject them with{" "}
-                <code>tecNO_ENTRY</code> / <code>tecNO_PERMISSION</code>.
+                attaches <code>Owner</code> automatically by resolving the current holder from
+                one of two sources, controlled by <code>ownerSource</code>:
+                <ul className="list-disc pl-5 mt-2 space-y-1">
+                  <li>
+                    <code>"onchain"</code> <strong>(default)</strong> — the SDK queries the
+                    XRPL via the Clio{" "}
+                    <a
+                      href="https://xrpl.org/docs/references/http-websocket-apis/public-api-methods/clio-methods/nft_info"
+                      target="_blank"
+                      rel="noopener"
+                      className="underline"
+                    >
+                      <code>nft_info</code>
+                    </a>{" "}
+                    RPC and uses whatever address the ledger reports. Always correct, costs one
+                    extra request per <code>update()</code>.
+                  </li>
+                  <li>
+                    <code>"db"</code> — the SDK trusts <code>ownerAddress</code> on the stored
+                    record. Faster, but only safe if you reliably call{" "}
+                    <code>sdk.nft.markTransferComplete(tokenId, newOwner)</code> after every
+                    accepted sell offer. Otherwise the modify will be rejected with{" "}
+                    <code>tecNO_ENTRY</code> / <code>tecNO_PERMISSION</code>.
+                  </li>
+                </ul>
+              </Callout>
+              <Callout variant="warn" title="Clio server required for the default path">
+                <code>nft_info</code> is implemented by{" "}
+                <a
+                  href="https://github.com/XRPLF/clio"
+                  target="_blank"
+                  rel="noopener"
+                  className="underline"
+                >
+                  Clio
+                </a>
+                , not by core <code>rippled</code>. Most public XRPL clusters expose Clio (e.g.
+                <code>wss://xrplcluster.com</code>, <code>wss://s1.ripple.com</code>,{" "}
+                <code>wss://s2.ripple.com</code>), so the default <code>"onchain"</code> path
+                works out of the box. If you self-host a rippled-only node, either run Clio in
+                front of it or pass <code>{`{ ownerSource: "db" }`}</code> on every{" "}
+                <code>update()</code> call. The SDK will throw a clear{" "}
+                <code>XrplGamingError</code> with both options spelled out if it can't reach a
+                Clio server.
               </Callout>
             </Section>
 

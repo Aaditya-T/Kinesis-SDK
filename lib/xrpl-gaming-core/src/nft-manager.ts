@@ -24,8 +24,12 @@ import {
   uriToHex,
 } from "./util.js";
 
+// NFTokenMint flags (XLS-20 + XLS-46)
+const TF_BURNABLE = 0x00000001;
+const TF_ONLY_XRP = 0x00000002;
 const TF_TRANSFERABLE = 0x00000008;
 const TF_MUTABLE = 0x00000010;
+// NFTokenCreateOffer flags
 const TF_SELL_NFTOKEN = 0x00000001;
 
 interface SubmitMeta {
@@ -77,6 +81,8 @@ export class NftManager {
     let flags = 0;
     if (transferable) flags |= TF_TRANSFERABLE;
     if (mutable) flags |= TF_MUTABLE;
+    if (params.burnable) flags |= TF_BURNABLE;
+    if (params.onlyXRP) flags |= TF_ONLY_XRP;
 
     const mintTx: NFTokenMint = {
       TransactionType: "NFTokenMint",
@@ -169,11 +175,21 @@ export class NftManager {
     // player has accepted the sell offer and now holds the token), the tx
     // MUST carry the `Owner` field pointing at the current holder.
     // Submitting without it returns `tecNO_ENTRY` / `tecNO_PERMISSION`.
-    // We always set it when the DB-tracked owner differs from the issuer
-    // wallet — for a freshly-minted, still-issuer-owned NFT, leaving the
-    // field undefined is the right choice.
-    if (existing.ownerAddress !== this.wallet.classicAddress) {
-      modifyTx.Owner = existing.ownerAddress;
+    //
+    // Two ways to discover that owner:
+    //   - "onchain" (default) — ask the XRPL via Clio's `nft_info` RPC.
+    //     Always accurate but requires `nodeUrl` to point at a Clio
+    //     server (which most public clusters are).
+    //   - "db" — read it from the DB record. Cheaper but only correct
+    //     if the application has been calling `markTransferComplete`
+    //     after every accepted offer.
+    const ownerSource = params.ownerSource ?? "onchain";
+    const currentOwner =
+      ownerSource === "onchain"
+        ? await this.fetchOwnerOnchain(tokenId)
+        : existing.ownerAddress;
+    if (currentOwner !== this.wallet.classicAddress) {
+      modifyTx.Owner = currentOwner;
     }
 
     const prepared = await this.client.autofill(modifyTx);
@@ -290,6 +306,48 @@ export class NftManager {
   /** List all NFT records in a named collection. */
   async listByCollection(collection: string): Promise<NftRecord[]> {
     return this.config.db.listNftsByCollection(collection);
+  }
+
+  /**
+   * Resolve the current on-chain owner of an NFT using Clio's `nft_info`
+   * RPC. Throws a clear `XrplGamingError` if the configured `nodeUrl`
+   * isn't a Clio server (rippled-only nodes don't implement this method).
+   * See https://xrpl.org/docs/references/http-websocket-apis/public-api-methods/clio-methods/nft_info
+   */
+  private async fetchOwnerOnchain(tokenId: string): Promise<string> {
+    let response: { result: { owner?: string } };
+    try {
+      // `nft_info` is a Clio-only command and isn't in xrpl.js's typed
+      // request union, so we cast through `unknown` to keep types honest
+      // while still handing the underlying client a plain object.
+      response = (await this.client.request({
+        command: "nft_info",
+        nft_id: tokenId,
+      } as unknown as Parameters<Client["request"]>[0])) as unknown as {
+        result: { owner?: string };
+      };
+    } catch (err) {
+      const detail =
+        (err as { data?: { error_message?: string } })?.data?.error_message ??
+        (err as Error)?.message ??
+        String(err);
+      throw new XrplGamingError(
+        `Failed to resolve NFT owner via nft_info for ${tokenId}: ${detail}. ` +
+          `nft_info is a Clio-only XRPL RPC method — point your SDK ` +
+          `nodeUrl at a Clio server (most public XRPL clusters expose ` +
+          `Clio), or pass { ownerSource: "db" } to fall back to the ` +
+          `DB-tracked owner.`,
+      );
+    }
+    const owner = response?.result?.owner;
+    if (typeof owner !== "string" || owner.length === 0) {
+      throw new XrplGamingError(
+        `nft_info did not return an owner for ${tokenId}. ` +
+          `Either the NFT does not exist on this network or the node ` +
+          `responded with an unexpected shape.`,
+      );
+    }
+    return owner;
   }
 
   private async createSellOffer(

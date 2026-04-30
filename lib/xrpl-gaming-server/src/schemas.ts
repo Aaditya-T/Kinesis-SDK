@@ -16,6 +16,8 @@ export const MintRequestSchema = z.object({
     .optional(),
   transferable: z.boolean().optional(),
   mutable: z.boolean().optional(),
+  burnable: z.boolean().optional(),
+  onlyXRP: z.boolean().optional(),
   taxon: z.number().int().nonnegative().optional(),
   transferFee: z.number().int().min(0).max(50000).optional(),
 });
@@ -23,6 +25,7 @@ export type MintRequest = z.infer<typeof MintRequestSchema>;
 
 export const UpdateRequestSchema = z.object({
   metadata: NftMetadataSchema,
+  ownerSource: z.enum(["onchain", "db"]).optional(),
 });
 export type UpdateRequest = z.infer<typeof UpdateRequestSchema>;
 

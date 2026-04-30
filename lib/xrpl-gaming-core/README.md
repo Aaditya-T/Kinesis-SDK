@@ -76,11 +76,35 @@ const sdk = new XRPLGamingSDK({ managedApiKey: "xg_live_xxx" });
 
 ## DynamicNFT details
 
-- NFTs are minted with the `tfMutable` flag (XLS-46) so the issuer can update their URI.
-- `update()` issues an `NFTokenModify` transaction that replaces the URI with a new IPFS pointer.
-  - When the DB record shows the NFT has been transferred away from the issuer (`ownerAddress !== issuerAddress` — typical once a player has accepted the sell offer), the SDK automatically sets the optional `Owner` field on `NFTokenModify` to the current holder. Without it the ledger returns `tecNO_ENTRY` / `tecNO_PERMISSION` because XLS-46 requires `Owner` whenever the issuer is acting on a token they no longer hold.
-  - That means you must call `sdk.nft.markTransferComplete(tokenId, newOwnerAddress)` once a transfer is accepted on-chain — otherwise the SDK still thinks the issuer holds the token and will submit a modify without `Owner`.
-- Transfers use `NFTokenCreateOffer` (sell offer at 0 drops by default) targeted to the destination wallet, which must accept the offer to complete the transfer.
+### Mint flags
+
+`mint()` exposes the four `NFTokenMint` flags that matter for game NFTs. All are optional booleans on `MintParams`:
+
+| `MintParams` field | XRPL flag        | Default | Effect                                                                  |
+| ------------------ | ---------------- | ------- | ----------------------------------------------------------------------- |
+| `transferable`     | `tfTransferable` | `true`  | NFT can be traded between non-issuer wallets.                           |
+| `mutable`          | `tfMutable`      | `true`  | Issuer can later call `update()` (XLS-46). `false` freezes the NFT.     |
+| `burnable`         | `tfBurnable`     | `false` | Issuer can burn the NFT even after a player owns it.                    |
+| `onlyXRP`          | `tfOnlyXRP`      | `false` | Sell/buy offers for the NFT must be denominated in XRP, not IOUs.       |
+
+### Updating a player-held NFT
+
+`update()` issues an `NFTokenModify` transaction that replaces the URI with a new IPFS pointer. XLS-46 requires this transaction to carry an `Owner` field whenever the issuer is acting on a token they no longer hold (typical once a player has accepted the sell offer). The SDK attaches `Owner` automatically by resolving the current holder from one of two sources, controlled by `UpdateParams.ownerSource`:
+
+- `"onchain"` **(default)** — the SDK queries the XRPL via the Clio-only [`nft_info`](https://xrpl.org/docs/references/http-websocket-apis/public-api-methods/clio-methods/nft_info) RPC. Always correct, costs one extra request per update. **Requires the SDK's `nodeUrl` to point at a Clio server** — most public XRPL clusters expose Clio (e.g. `wss://xrplcluster.com`, `wss://s1.ripple.com`, `wss://s2.ripple.com`). If you self-host a rippled-only node and the call fails, the SDK throws an `XrplGamingError` that explicitly tells you to either run Clio or switch to `"db"`.
+- `"db"` — the SDK trusts `ownerAddress` on its DB record. Skips the network round-trip, but only safe if you reliably call `sdk.nft.markTransferComplete(tokenId, newOwner)` after every accepted sell offer. Otherwise the modify will be rejected with `tecNO_ENTRY` / `tecNO_PERMISSION`.
+
+```ts
+// Default — works against any Clio-fronted XRPL node:
+await sdk.nft.update(tokenId, { metadata: { ...newAttrs } });
+
+// Opt out of the network call — your app guarantees DB freshness:
+await sdk.nft.update(tokenId, { metadata: { ...newAttrs }, ownerSource: "db" });
+```
+
+### Transfer
+
+Transfers use `NFTokenCreateOffer` (sell offer at 0 drops by default) targeted to the destination wallet, which must accept the offer to complete the transfer. The SDK does not poll the ledger; reconcile via `markTransferComplete()` once you observe acceptance.
 
 ## IPFS adapter capabilities
 
