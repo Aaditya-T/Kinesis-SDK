@@ -16,11 +16,6 @@ export function Hero() {
           transition={{ duration: 0.5 }}
           className="flex flex-col items-center text-center max-w-4xl mx-auto"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/50 border border-border text-sm text-muted-foreground mb-8">
-            <Terminal className="w-4 h-4 text-primary" />
-            <span>v1.0.0 by Blockcelerate is now available</span>
-          </div>
-          
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8">
             Game assets that <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">evolve</span> as your players play.
           </h1>
