@@ -21,6 +21,7 @@ import type {
 import {
   extractOfferIdFromMeta,
   extractTokenIdFromMeta,
+  toRippleTime,
   uriToHex,
 } from "./util.js";
 
@@ -67,7 +68,11 @@ export class NftManager {
 
   /**
    * Mint a new DynamicNFT for the issuer wallet. If `destination` is provided,
-   * also creates a 0-drops sell offer to that wallet so the player can claim.
+   * the SDK packs an XLS-46 inline sell offer onto the same `NFTokenMint`
+   * transaction (using the `Amount` / `Destination` / `Expiration` fields)
+   * so the mint and the offer settle in a single ledger close — no
+   * follow-up `NFTokenCreateOffer` and no risk of an NFT existing on-ledger
+   * without the corresponding offer.
    */
   async mint(params: MintParams): Promise<MintResult> {
     this.assertReady();
@@ -95,6 +100,35 @@ export class NftManager {
       mintTx.TransferFee = params.transferFee;
     }
 
+    // XLS-46: when `destination` is set, attach the inline sell-offer
+    // fields so we don't need a follow-up NFTokenCreateOffer transaction.
+    // The XRPL requires `Amount` whenever `Destination` is present —
+    // default to "0" drops so the recipient can claim for free.
+    // `Amount` and `Expiration` only describe the inline sell offer, so
+    // they're only meaningful when a destination is given. Reject the
+    // mismatched combinations early to avoid silently building a tx
+    // shape the caller didn't intend.
+    if (params.destination) {
+      mintTx.Destination = params.destination;
+      mintTx.Amount = params.amount ?? "0";
+      if (params.expiration != null) {
+        mintTx.Expiration = toRippleTime(params.expiration);
+      }
+    } else {
+      if (params.amount != null) {
+        throw new XrplGamingError(
+          "MintParams.amount only applies when MintParams.destination is set " +
+            "(it's the price of the XLS-46 inline sell offer).",
+        );
+      }
+      if (params.expiration != null) {
+        throw new XrplGamingError(
+          "MintParams.expiration only applies when MintParams.destination is " +
+            "set (it expires the XLS-46 inline sell offer).",
+        );
+      }
+    }
+
     const prepared = await this.client.autofill(mintTx);
     const signed = this.wallet.sign(prepared);
     const result = await this.client.submitAndWait(signed.tx_blob);
@@ -109,12 +143,27 @@ export class NftManager {
       );
     }
 
-    // Persist the record IMMEDIATELY after the mint settles, before any
-    // optional sell-offer creation. If the offer step fails the NFT is
-    // still tracked in the DB and the caller can retry via `transfer()`,
-    // rather than orphaning a minted NFT off-ledger.
+    // The same metadata also carries the new NFTokenOffer that the
+    // inline-offer fields create. Pull it out so callers get back both
+    // ids in one call.
+    let offerId: string | undefined;
+    if (params.destination) {
+      const id = extractOfferIdFromMeta(meta);
+      if (!id) {
+        throw new XrplGamingError(
+          `NFTokenMint for ${tokenId} succeeded but the inline sell ` +
+            `offer to ${params.destination} could not be located in the ` +
+            `transaction metadata. Inspect tx ${signed.hash} on a ledger ` +
+            `explorer to recover it manually.`,
+        );
+      }
+      offerId = id;
+    }
+
+    // Mint + offer were atomic, so persist the DB row once with the
+    // final state. No more save-then-patch dance.
     const now = new Date();
-    let record: NftRecord = {
+    const record: NftRecord = {
       tokenId,
       ownerAddress: this.wallet.classicAddress,
       issuerAddress: this.wallet.classicAddress,
@@ -122,28 +171,12 @@ export class NftManager {
       metadata: params.metadata,
       playerId: params.playerId ?? null,
       collection: params.collection ?? null,
-      pendingOfferId: null,
-      pendingDestination: null,
+      pendingOfferId: offerId ?? null,
+      pendingDestination: params.destination ?? null,
       createdAt: now,
       updatedAt: now,
     };
     await this.config.db.saveNft(record);
-
-    let offerId: string | undefined;
-    if (params.destination) {
-      const offer = await this.createSellOffer(
-        tokenId,
-        params.destination,
-        "0",
-      );
-      offerId = offer.offerId;
-      const patched = await this.config.db.updateNft(tokenId, {
-        pendingOfferId: offer.offerId,
-        pendingDestination: params.destination,
-        updatedAt: new Date(),
-      });
-      if (patched) record = patched;
-    }
 
     return { record, txHash: signed.hash, offerId };
   }

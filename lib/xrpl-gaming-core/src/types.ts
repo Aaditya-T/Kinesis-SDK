@@ -36,7 +36,28 @@ export interface MintParams {
   metadata: NftMetadata;
   playerId?: string;
   collection?: string;
+  /**
+   * If set, the SDK packs an XLS-46 inline sell offer onto the
+   * `NFTokenMint` transaction so the mint and the offer settle in a
+   * single ledger close. The destination wallet must call
+   * `NFTokenAcceptOffer` to take ownership.
+   */
   destination?: string;
+  /**
+   * Sell-offer amount in drops (or an issued-currency Amount object —
+   * see xrpl.js `Amount`). Only honoured when `destination` is set.
+   * Defaults to `"0"` so the player can claim the NFT for free.
+   * The XRPL requires this field whenever `Destination` is present.
+   */
+  amount?: string;
+  /**
+   * Optional sell-offer expiration. Accepts either a JavaScript `Date`
+   * (the SDK converts it to Ripple time internally) or a raw Ripple
+   * time number (seconds since 2000-01-01 UTC). Only honoured when
+   * `destination` is set; if the expiration is in the past the XRPL
+   * will reject the transaction.
+   */
+  expiration?: number | Date;
   /**
    * `tfTransferable` (0x00000008). When `true` (default) the NFT can be
    * transferred between non-issuer wallets. When `false` it can only ever

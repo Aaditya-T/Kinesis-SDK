@@ -246,8 +246,15 @@ async function mintLoot(item: { name: string; rarity: string }) {
   taxon: 100,
   // Optional: royalty in 0.01% units (250 = 2.5%)
   transferFee: 250,
-  // Optional: also create a 0-drops sell offer to this address
+
+  // OPTIONAL inline sell-offer (XLS-46). When destination is set the
+  // SDK packs Amount/Destination/Expiration onto the same NFTokenMint
+  // tx, so mint + offer settle in a single ledger close (no follow-up
+  // NFTokenCreateOffer, no orphaned-NFT-without-offer state).
   destination: "rPlayerXrplAddress...",
+  amount:      "0",          // drops; default "0" = free claim
+  expiration:  new Date(Date.now() + 24 * 60 * 60 * 1000), // optional
+                              // Date OR a Ripple-time number; SDK converts.
 });
 
 console.log(result.record.tokenId);   // 00080000...
@@ -379,7 +386,11 @@ interface MintParams {
   onlyXRP?: boolean;      // default false  (tfOnlyXRP)
   taxon?: number;
   transferFee?: number;
+  // XLS-46 inline sell-offer fields. When destination is set the SDK
+  // packs all three onto the NFTokenMint so mint+offer settle atomically.
   destination?: string;
+  amount?: string;                 // drops; defaults to "0"
+  expiration?: number | Date;      // Ripple time, or a JS Date
 }
 interface UpdateParams {
   metadata: NftMetadata;

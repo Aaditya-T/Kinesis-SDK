@@ -1,3 +1,23 @@
+/**
+ * Seconds between the Unix epoch (1970-01-01 UTC) and the Ripple epoch
+ * (2000-01-01 UTC). XRPL transactions express time as seconds since the
+ * Ripple epoch.
+ */
+const RIPPLE_EPOCH_UNIX_SECONDS = 946_684_800;
+
+/**
+ * Convert either a JavaScript `Date` or an already-converted Ripple time
+ * (seconds since 2000-01-01 UTC) into the format the XRPL expects on
+ * `Expiration` fields. Numbers are passed through unchanged so callers
+ * who already speak Ripple time stay zero-cost.
+ */
+export function toRippleTime(value: number | Date): number {
+  if (value instanceof Date) {
+    return Math.floor(value.getTime() / 1000) - RIPPLE_EPOCH_UNIX_SECONDS;
+  }
+  return value;
+}
+
 export function uriToHex(uri: string): string {
   const bytes = new TextEncoder().encode(uri);
   let out = "";

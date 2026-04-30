@@ -348,14 +348,28 @@ export default function Docs() {
                   Builds an <code>NFTokenMint</code> tx with the URI hex-encoded and the{" "}
                   <code>tfMutable</code> + <code>tfTransferable</code> flags set (by default).
                 </li>
-                <li>Autofills, signs, submits, and waits for ledger confirmation.</li>
-                <li>Persists the resulting record to your DB.</li>
                 <li>
-                  Optionally creates a 0-drops sell offer if you passed{" "}
-                  <code>destination</code>.
+                  If you passed <code>destination</code>, packs the XLS-46 inline sell-offer
+                  fields (<code>Amount</code>, <code>Destination</code>,{" "}
+                  <code>Expiration</code>) onto the <em>same</em> transaction.
                 </li>
+                <li>Autofills, signs, submits, and waits for ledger confirmation.</li>
+                <li>
+                  Pulls both the new <code>NFTokenID</code> and the new offer id (when the inline
+                  offer was requested) out of the transaction metadata.
+                </li>
+                <li>Persists the resulting record to your DB.</li>
               </ol>
               <CodeBlock code={SNIPPETS.flowMint} language="ts" />
+              <Callout variant="tip" title="Mint + sell offer is one transaction">
+                Thanks to XLS-46 the SDK no longer issues a follow-up{" "}
+                <code>NFTokenCreateOffer</code> when you pass <code>destination</code>. The mint
+                and the sell offer settle in a single ledger close, which means one fee, one
+                round-trip, and zero risk of an NFT existing on-ledger without its corresponding
+                offer. Set <code>amount</code> to a non-zero drops string if you want to charge
+                for the claim, and pass an <code>expiration</code> (JS <code>Date</code> or
+                Ripple-time number) to time-box the offer.
+              </Callout>
             </Section>
 
             {/* FLOW: UPDATE */}

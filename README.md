@@ -86,7 +86,7 @@ Routes:
 
 | Method | Path | Body |
 | --- | --- | --- |
-| `POST` | `/nft/mint` | `{ metadata, playerId, collection?, destination? }` |
+| `POST` | `/nft/mint` | `{ metadata, playerId, collection?, destination?, amount?, expiration? }` |
 | `PATCH` | `/nft/:tokenId` | `{ metadata, taxon? }` |
 | `POST` | `/nft/:tokenId/transfer` | `{ destination, amount? }` |
 | `DELETE` | `/nft/:tokenId` | – |

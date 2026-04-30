@@ -9,6 +9,7 @@ export {
   extractOfferIdFromMeta,
   extractTokenIdFromMeta,
   hexToUri,
+  toRippleTime,
   uriToHex,
 } from "./util.js";
 export type {

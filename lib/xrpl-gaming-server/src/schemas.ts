@@ -14,13 +14,33 @@ export const MintRequestSchema = z.object({
     .max(35)
     .regex(/^r[1-9A-HJ-NP-Za-km-z]{24,34}$/, "Invalid XRPL address")
     .optional(),
+  amount: z
+    .string()
+    .regex(/^\d+$/, "Amount must be an integer string in drops")
+    .optional(),
+  expiration: z
+    .number()
+    .int()
+    .nonnegative()
+    .optional()
+    .describe("Sell-offer expiration as Ripple time (seconds since 2000-01-01 UTC)."),
   transferable: z.boolean().optional(),
   mutable: z.boolean().optional(),
   burnable: z.boolean().optional(),
   onlyXRP: z.boolean().optional(),
   taxon: z.number().int().nonnegative().optional(),
   transferFee: z.number().int().min(0).max(50000).optional(),
-});
+})
+  .refine((v) => v.amount == null || v.destination != null, {
+    message:
+      "amount only applies when destination is set (it's the price of the XLS-46 inline sell offer).",
+    path: ["amount"],
+  })
+  .refine((v) => v.expiration == null || v.destination != null, {
+    message:
+      "expiration only applies when destination is set (it expires the XLS-46 inline sell offer).",
+    path: ["expiration"],
+  });
 export type MintRequest = z.infer<typeof MintRequestSchema>;
 
 export const UpdateRequestSchema = z.object({

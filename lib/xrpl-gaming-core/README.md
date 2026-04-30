@@ -102,6 +102,21 @@ await sdk.nft.update(tokenId, { metadata: { ...newAttrs } });
 await sdk.nft.update(tokenId, { metadata: { ...newAttrs }, ownerSource: "db" });
 ```
 
+### Mint with an inline sell offer (XLS-46)
+
+When you pass `destination` to `mint()`, the SDK does **not** issue a follow-up `NFTokenCreateOffer`. Instead it packs the XLS-46 inline sell-offer fields (`Amount`, `Destination`, `Expiration`) onto the same `NFTokenMint` transaction, so mint and offer settle in a single ledger close.
+
+```ts
+await sdk.nft.mint({
+  metadata,
+  destination: "rPlayerWalletAddress...",
+  amount: "0",                                              // drops; default "0" = free claim
+  expiration: new Date(Date.now() + 24 * 60 * 60 * 1000),   // optional Date OR Ripple-time number
+});
+```
+
+`amount` is XRP drops as a string (`"0"` = free claim, `"1000000"` = 1 XRP, etc.). `expiration` accepts either a JS `Date` or a Ripple-time number (seconds since 2000-01-01 UTC); the SDK calls `toRippleTime()` for you. Both fields are only meaningful when `destination` is set — passing them without a destination throws an `XrplGamingError`, since they describe the inline sell offer rather than the NFT itself. The returned `result.offerId` is pulled out of the same transaction's metadata, so you get both the new `tokenId` and the new offer id from a single round-trip — one signed transaction, one fee, and no possibility of an NFT existing on-ledger without its corresponding offer.
+
 ### Transfer
 
 Transfers use `NFTokenCreateOffer` (sell offer at 0 drops by default) targeted to the destination wallet, which must accept the offer to complete the transfer. The SDK does not poll the ledger; reconcile via `markTransferComplete()` once you observe acceptance.
@@ -138,7 +153,7 @@ Transfers use `NFTokenCreateOffer` (sell offer at 0 drops by default) targeted t
 2. `client.submitAndWait(NFTokenMint | NFTokenModify)` — settle on-chain
 3. `db.saveNft(...)` / `db.updateNft(...)` — persist the authoritative on-chain result (token id, URI, timestamps)
 
-This guarantees we never advertise a DB row that points at a non-existent or out-of-date ledger object. The trade-off is that if the DB write fails *after* a successful XRPL settlement, you can rebuild the row by reading `account_nfts` for the issuer wallet and replaying it through `db.saveNft`. For `mint({ destination })`, the DB row is written immediately after the mint succeeds and *before* the optional sell-offer creation, so a failed offer never orphans a minted NFT.
+This guarantees we never advertise a DB row that points at a non-existent or out-of-date ledger object. The trade-off is that if the DB write fails *after* a successful XRPL settlement, you can rebuild the row by reading `account_nfts` for the issuer wallet and replaying it through `db.saveNft`. For `mint({ destination })` the mint and the inline sell offer settle in one transaction (XLS-46), so the SDK saves a single DB row with `pendingOfferId` and `pendingDestination` already populated — there is no intermediate state in which an NFT can exist on-ledger without its offer.
 
 ## Transfer is offer-based — you must reconcile
 
