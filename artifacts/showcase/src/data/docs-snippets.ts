@@ -117,6 +117,24 @@ const ipfsLegacy = new PinataAdapter({
 const ipfsCustom = new PinataAdapter({
   jwt: process.env.PINATA_JWT!,
   gatewayDomain: "your-gateway.mypinata.cloud",
+});
+
+// ---- Pinning a binary asset (image, audio, video) ----
+// Pin the asset first, then embed its ipfs:// URI in the metadata you
+// hand to sdk.nft.mint / sdk.nft.update. \`uploadFile\` accepts a
+// Uint8Array, ArrayBuffer, Blob, or Node Buffer.
+
+import { promises as fs } from "node:fs";
+
+const bytes = await fs.readFile("./hero.png");
+const image = await ipfs.uploadFile(bytes, {
+  name: "hero.png",
+  contentType: "image/png", // serve the right MIME type from the gateway
+});
+
+await sdk.nft.mint({
+  metadata: { name: "Hero", image: image.uri, attributes: { level: 1 } },
+  playerId: "player-123",
 });`,
 
   inProcessExpress: `import express from "express";
@@ -246,7 +264,12 @@ console.log(updated.txHash);             // NFTokenModify tx hash
 
 // Internally:
 //  1. Re-uploads the new metadata JSON to IPFS (new CID)
-//  2. Submits an NFTokenModify transaction with the new URI
+//  2. Submits an NFTokenModify transaction with the new URI.
+//     If the DB record shows the NFT has moved on from the issuer
+//     (e.g. the player accepted the sell offer and you called
+//     sdk.nft.markTransferComplete), the SDK auto-attaches the
+//     XLS-46 \`Owner\` field. Without it the ledger would return
+//     tecNO_ENTRY / tecNO_PERMISSION on player-held tokens.
 //  3. Updates the DB record so reads return the new state immediately`,
 
   flowTransfer: `// Two-step XRPL transfer: issuer creates a sell offer,
@@ -368,28 +391,4 @@ interface UpdateResult   { record: NftRecord; txHash: string; }
 interface TransferResult { offerId: string;   txHash: string; }
 interface BurnResult     { txHash: string; }`,
 
-  composeArchitecture: `┌──────────────────────────────────────────────────────┐
-│  Your game client                                    │
-│  (Unity, Phaser, browser, Discord bot, mobile app)   │
-└──────────────────────┬───────────────────────────────┘
-                       │   HTTPS + your own auth
-                       ▼
-┌──────────────────────────────────────────────────────┐
-│  Your game backend                                   │
-│  └─ embeds xrpl-gaming-core directly,     │
-│     OR proxies to xrpl-gaming-server      │
-└──────────────────────┬───────────────────────────────┘
-                       │   in-process method calls
-                       ▼
-┌──────────────────────────────────────────────────────┐
-│  XRPLGamingSDK  (signs every tx with issuer wallet)  │
-└────┬───────────────────┬───────────────────┬─────────┘
-     │                   │                   │
-     ▼                   ▼                   ▼
-┌──────────┐      ┌─────────────┐    ┌────────────────┐
-│  XRPL    │      │ IDBAdapter  │    │ IIPFSAdapter   │
-│  node    │      │ (Postgres / │    │ (Pinata /      │
-│ (testnet │      │  Mongo /    │    │  custom)       │
-│  / main) │      │  custom)    │    │                │
-└──────────┘      └─────────────┘    └────────────────┘`,
 };

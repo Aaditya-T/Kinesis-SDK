@@ -256,11 +256,11 @@ export default function Docs() {
                 new CID pointing at the new metadata.
               </p>
               <CodeBlock code={SNIPPETS.pinataAdapter} language="ts" />
-              <p>The adapter returns:</p>
+              <p>Both methods return the same shape:</p>
               <ul>
                 <li>
                   <code>uri</code> — the canonical <code>ipfs://CID</code> string written to the
-                  ledger
+                  ledger (or embedded inside a metadata document)
                 </li>
                 <li>
                   <code>gatewayUrl</code> — an HTTPS URL on Pinata's gateway (or your dedicated
@@ -271,9 +271,17 @@ export default function Docs() {
                 </li>
               </ul>
               <p>
+                <code>IIPFSAdapter</code> exposes two methods:{" "}
+                <code>uploadJson(metadata, opts)</code> for the metadata document the SDK writes
+                to the on-chain URI, and <code>uploadFile(data, opts)</code> for binary assets —
+                images, audio, video — that the metadata refers to. Pin the asset first, embed
+                its <code>ipfs://</code> URI in the metadata, then mint.
+              </p>
+              <p>
                 Want a different pinning service (Web3.Storage, Filebase, your own IPFS node)?
-                Implement the <code>IIPFSAdapter</code> interface — it's a single method,{" "}
-                <code>uploadJson(data, opts)</code>.
+                Implement <code>IIPFSAdapter</code> — both methods accept{" "}
+                <code>{`{ name?, contentType? }`}</code> options and return the same{" "}
+                <code>{`{ uri, gatewayUrl, cid }`}</code> result.
               </p>
             </Section>
 
@@ -362,6 +370,18 @@ export default function Docs() {
                 Mutability is decided at mint time via the <code>mutable</code> flag (default
                 true). If you mint with <code>mutable: false</code>, future updates will fail
                 with an XRPL error — that NFT is frozen forever.
+              </Callout>
+              <Callout variant="tip" title="Updating a player-held NFT (Owner field)">
+                XLS-46 requires <code>NFTokenModify</code> to carry an{" "}
+                <code>Owner</code> field whenever the issuer is mutating a token they no longer
+                hold (typical once a player has accepted the sell offer from{" "}
+                <code>mint({"{ destination }"})</code> or <code>transfer()</code>). The SDK
+                detects this from the DB record and attaches <code>Owner</code> automatically —
+                so as long as you call <code>sdk.nft.markTransferComplete(tokenId, newOwner)</code>{" "}
+                once a transfer settles, subsequent <code>update()</code> calls keep working.
+                Skip that reconciliation step and the SDK will keep submitting modifies without{" "}
+                <code>Owner</code> and the ledger will reject them with{" "}
+                <code>tecNO_ENTRY</code> / <code>tecNO_PERMISSION</code>.
               </Callout>
             </Section>
 

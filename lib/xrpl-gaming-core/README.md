@@ -78,7 +78,33 @@ const sdk = new XRPLGamingSDK({ managedApiKey: "xg_live_xxx" });
 
 - NFTs are minted with the `tfMutable` flag (XLS-46) so the issuer can update their URI.
 - `update()` issues an `NFTokenModify` transaction that replaces the URI with a new IPFS pointer.
+  - When the DB record shows the NFT has been transferred away from the issuer (`ownerAddress !== issuerAddress` — typical once a player has accepted the sell offer), the SDK automatically sets the optional `Owner` field on `NFTokenModify` to the current holder. Without it the ledger returns `tecNO_ENTRY` / `tecNO_PERMISSION` because XLS-46 requires `Owner` whenever the issuer is acting on a token they no longer hold.
+  - That means you must call `sdk.nft.markTransferComplete(tokenId, newOwnerAddress)` once a transfer is accepted on-chain — otherwise the SDK still thinks the issuer holds the token and will submit a modify without `Owner`.
 - Transfers use `NFTokenCreateOffer` (sell offer at 0 drops by default) targeted to the destination wallet, which must accept the offer to complete the transfer.
+
+## IPFS adapter capabilities
+
+`IIPFSAdapter` exposes two methods:
+
+- `uploadJson(metadata, opts?)` — pin a JSON metadata document. Used by `nft.mint` / `nft.update` internally; you rarely call it directly.
+- `uploadFile(data, opts?)` — pin a binary file (image, audio, video). Use it to pin an NFT's image first, embed the returned `ipfs://` URI in the metadata, then mint:
+
+  ```ts
+  import { promises as fs } from "node:fs";
+
+  const bytes = await fs.readFile("./hero.png");
+  const image = await sdk.ipfs.uploadFile(bytes, {
+    name: "hero.png",
+    contentType: "image/png",
+  });
+
+  await sdk.nft.mint({
+    metadata: { name: "Hero", image: image.uri, attributes: { level: 1 } },
+    playerId: "player-123",
+  });
+  ```
+
+  `data` accepts `Uint8Array`, `ArrayBuffer`, `Blob`, or a Node `Buffer`. Pass `contentType` so the asset is served with the right MIME type. Both bundled adapters (`xrpl-gaming-ipfs-pinata` and any custom one you implement) support both methods.
 
 ## Operation ordering & consistency model
 

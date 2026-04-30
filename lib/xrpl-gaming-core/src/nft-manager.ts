@@ -165,6 +165,17 @@ export class NftManager {
       URI: uriToHex(upload.uri),
     };
 
+    // XLS-46: when the issuer modifies an NFT they no longer own (e.g. the
+    // player has accepted the sell offer and now holds the token), the tx
+    // MUST carry the `Owner` field pointing at the current holder.
+    // Submitting without it returns `tecNO_ENTRY` / `tecNO_PERMISSION`.
+    // We always set it when the DB-tracked owner differs from the issuer
+    // wallet — for a freshly-minted, still-issuer-owned NFT, leaving the
+    // field undefined is the right choice.
+    if (existing.ownerAddress !== this.wallet.classicAddress) {
+      modifyTx.Owner = existing.ownerAddress;
+    }
+
     const prepared = await this.client.autofill(modifyTx);
     const signed = this.wallet.sign(prepared);
     const result = await this.client.submitAndWait(signed.tx_blob);

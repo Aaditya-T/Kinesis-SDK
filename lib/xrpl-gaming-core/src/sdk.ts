@@ -1,4 +1,5 @@
 import { Client, Wallet } from "xrpl";
+import type { IIPFSAdapter } from "./adapters.js";
 import { ManagedNotAvailableError, XrplGamingError } from "./errors.js";
 import { NftManager } from "./nft-manager.js";
 import type { ManagedConfig, SdkConfig, SelfHostedConfig } from "./types.js";
@@ -129,5 +130,14 @@ export class XRPLGamingSDK {
 
   get xrplClient(): Client {
     return this.client;
+  }
+
+  /**
+   * Direct access to the IPFS adapter you constructed the SDK with. Useful
+   * for pinning binary assets (e.g. an NFT's image) before passing the
+   * resulting `ipfs://` URI into `sdk.nft.mint` or `sdk.nft.update`.
+   */
+  get ipfs(): IIPFSAdapter {
+    return this.config.ipfs;
   }
 }

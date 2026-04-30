@@ -1,6 +1,6 @@
 # xrpl-gaming-ipfs-pinata
 
-Pinata IPFS adapter for the XRPL Gaming SDK. Uploads NFT metadata JSON to Pinata and returns a public IPFS URI plus a gateway URL.
+Pinata IPFS adapter for the XRPL Gaming SDK. Pins NFT metadata JSON **and** the binary assets it points at (images, audio, video) to Pinata, and returns a public IPFS URI plus a gateway URL for each.
 
 > Adapters are a self-hosted concern. The managed tier (when available) will provide pinning out of the box and you will not instantiate this adapter directly.
 
@@ -52,7 +52,7 @@ const ipfs = new PinataAdapter({
 
 ## Standalone usage
 
-You can also use the adapter on its own:
+### Pin a JSON metadata document
 
 ```ts
 const result = await ipfs.uploadJson(
@@ -64,6 +64,35 @@ console.log(result.uri);          // ipfs://bafy...
 console.log(result.gatewayUrl);   // https://gateway.pinata.cloud/ipfs/bafy...
 console.log(result.cid);          // bafy...
 ```
+
+### Pin a binary file (image, audio, video)
+
+NFT metadata documents typically reference an image by URI. Use `uploadFile` to pin the asset first, embed the returned `ipfs://` URI in the metadata, and then pin the metadata with `uploadJson` (or hand it directly to `sdk.nft.mint`).
+
+```ts
+import { promises as fs } from "node:fs";
+
+// 1. Pin the image
+const bytes = await fs.readFile("./hero.png");
+const image = await ipfs.uploadFile(bytes, {
+  name: "hero.png",
+  contentType: "image/png",
+});
+
+// 2. Mint with the image embedded in the metadata
+const minted = await sdk.nft.mint({
+  metadata: {
+    name: "Hero",
+    image: image.uri,         // <- ipfs://bafy...
+    attributes: { level: 1 },
+  },
+  playerId: "player-123",
+});
+```
+
+`uploadFile` accepts `Uint8Array`, `ArrayBuffer`, `Blob`, or a Node `Buffer` (which extends `Uint8Array`). It returns the same `{ uri, gatewayUrl, cid }` shape as `uploadJson`. Always pass `contentType` so gateways serve the right MIME type — defaults to `application/octet-stream` otherwise.
+
+Behind the scenes, JWT credentials hit Pinata's v3 `/v3/files` endpoint (the same endpoint `uploadJson` uses), and legacy API key + secret credentials hit `pinFileToIPFS` instead of `pinJSONToIPFS`.
 
 ## Configuration
 

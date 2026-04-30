@@ -6,8 +6,8 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 
 This project is the **Kineses SDK** (https://github.com/Aaditya-T/Kinessis-SDK), an XRPL DynamicNFT toolkit for indie game studios. It is split into 5 publishable packages under `lib/` (unscoped npm names, MIT, version 0.1.0):
 
-- `xrpl-gaming-core` — `XRPLGamingSDK` class, `IDBAdapter` / `IIPFSAdapter` interfaces, NFT mint/update/transfer/burn flow.
-- `xrpl-gaming-ipfs-pinata` — Pinata IPFS adapter (v3 Files API).
+- `xrpl-gaming-core` — `XRPLGamingSDK` class, `IDBAdapter` / `IIPFSAdapter` interfaces, NFT mint/update/transfer/burn flow. `update()` auto-attaches the XLS-46 `Owner` field on `NFTokenModify` whenever the DB record shows the NFT has moved on from the issuer (so player-held tokens can still be mutated without `tecNO_ENTRY`). `IIPFSAdapter` exposes both `uploadJson` (metadata) and `uploadFile` (binary assets — images, audio, video). The SDK also exposes `sdk.ipfs` so callers can pin assets ad-hoc before minting.
+- `xrpl-gaming-ipfs-pinata` — Pinata IPFS adapter (v3 Files API). Implements both `uploadJson` and `uploadFile`; v1 (legacy keys) routes binaries to `pinFileToIPFS`.
 - `xrpl-gaming-db-postgres` — PostgreSQL adapter (auto-creates table + indexes on `init()`).
 - `xrpl-gaming-db-mongodb` — MongoDB adapter (auto-creates indexes on `init()`).
 - `xrpl-gaming-server` — self-hostable Express server exposing the SDK over REST (`POST /nft/mint`, `PATCH /nft/:id`, `POST /nft/:id/transfer`, `DELETE /nft/:id`, `GET /nft/:id`, `GET /health`). API-key auth, Zod validation, pino logs, ships with `docker-compose.example.yml` + `.env.example` for 5-minute self-host. Bridge for Unity / Unreal / native mobile. Provides `xrpl-gaming-server` CLI binary.
@@ -53,7 +53,7 @@ pnpm -r --filter "./lib/xrpl-gaming-*" publish --access public --no-git-checks
 React + Vite + Tailwind v4 landing site for the Kineses SDK. Routes:
 
 - `/` — marketing home (Hero, Features, live testnet Demo, CodeExamples, Pricing).
-- `/docs` — full SDK guide with sticky sidebar nav, IntersectionObserver-based scroll-spy, ASCII architecture diagram, package map, configuration / hosting / core-flow sections, and copy-to-clipboard code blocks (`prism-react-renderer`).
+- `/docs` — full SDK guide with sticky sidebar nav, IntersectionObserver-based scroll-spy, Mermaid architecture chart (`MermaidChart` component, dark theme), package map, configuration / hosting / core-flow sections, and copy-to-clipboard code blocks (`prism-react-renderer`).
 
 Brand surface (title, navbar/footer, contact email `hello@kineses.dev`, browser API base `api.kineses.dev`) is "Kineses SDK". Code examples reference the unscoped package names (`xrpl-gaming-*`) so users can copy-paste them directly after `npm install`.
 

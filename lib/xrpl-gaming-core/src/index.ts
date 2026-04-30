@@ -14,6 +14,7 @@ export {
 export type {
   IDBAdapter,
   IIPFSAdapter,
+  IpfsFileUploadOptions,
   IpfsUploadOptions,
   IpfsUploadResult,
 } from "./adapters.js";
