@@ -100,7 +100,7 @@ export interface UpdateParams {
    *
    * - `"onchain"` (default) — query the XRPL via the Clio-only `nft_info`
    *   RPC. Always accurate, but **requires the SDK's `nodeUrl` to point at
-   *   a Clio server** (most public XRPL clusters expose Clio; self-hosted
+   *   a Clio server** (most public XRPL clusters DO NOT expose Clio by default; self-hosted
    *   rippled-only setups do not).
    * - `"db"` — read `ownerAddress` from the SDK's DB record. Cheaper (no
    *   network round-trip) and works against any XRPL node, but only

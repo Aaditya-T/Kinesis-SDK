@@ -96,12 +96,6 @@ export default function Docs() {
                   A generated <strong>React Query client</strong> for any UI on top of the API.
                 </li>
               </ul>
-              <Callout variant="info" title="A note on the name">
-                Kinesis SDK is the public brand. On the wire and in npm, the packages currently
-                ship as <code>xrpl-gaming-*</code> and the main class is{" "}
-                <code>XRPLGamingSDK</code>. The two will reconcile in a future release; until then,
-                use the package names you see in the install commands.
-              </Callout>
             </Section>
 
             {/* ARCHITECTURE */}
@@ -361,15 +355,6 @@ export default function Docs() {
                 <li>Persists the resulting record to your DB.</li>
               </ol>
               <CodeBlock code={SNIPPETS.flowMint} language="ts" />
-              <Callout variant="tip" title="Mint + sell offer is one transaction">
-                Thanks to XLS-46 the SDK no longer issues a follow-up{" "}
-                <code>NFTokenCreateOffer</code> when you pass <code>destination</code>. The mint
-                and the sell offer settle in a single ledger close, which means one fee, one
-                round-trip, and zero risk of an NFT existing on-ledger without its corresponding
-                offer. Set <code>amount</code> to a non-zero drops string if you want to charge
-                for the claim, and pass an <code>expiration</code> (JS <code>Date</code> or
-                Ripple-time number) to time-box the offer.
-              </Callout>
             </Section>
 
             {/* FLOW: UPDATE */}
@@ -426,10 +411,8 @@ export default function Docs() {
                 >
                   Clio
                 </a>
-                , not by core <code>rippled</code>. Most public XRPL clusters expose Clio (e.g.
-                <code>wss://xrplcluster.com</code>, <code>wss://s1.ripple.com</code>,{" "}
-                <code>wss://s2.ripple.com</code>), so the default <code>"onchain"</code> path
-                works out of the box. If you self-host a rippled-only node, either run Clio in
+                , not by core <code>rippled</code>. Most public XRPL clusters DO NOT expose Clio by default, so the default <code>"onchain"</code> path
+                might not work out of the box. If you self-host a rippled-only node, either run Clio in
                 front of it or pass <code>{`{ ownerSource: "db" }`}</code> on every{" "}
                 <code>update()</code> call. The SDK will throw a clear{" "}
                 <code>XrplGamingError</code> with both options spelled out if it can't reach a
