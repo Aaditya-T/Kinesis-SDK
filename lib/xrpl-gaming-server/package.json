@@ -1,6 +1,6 @@
 {
   "name": "xrpl-gaming-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Self-hostable HTTP/REST server that exposes the Kineses XRPL DynamicNFT Gaming SDK over a JSON API. Designed for game studios on non-JavaScript platforms (Unity, Unreal, native mobile) that cannot import the Node.js SDK directly.",
   "keywords": [
     "xrpl",

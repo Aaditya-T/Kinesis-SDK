@@ -1,6 +1,6 @@
 {
   "name": "xrpl-gaming-core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Core of the Kineses XRPL DynamicNFT Gaming SDK. Provides the XRPLGamingSDK class plus pluggable IDBAdapter and IIPFSAdapter interfaces for minting, updating, transferring, burning and querying mutable game NFTs on the XRP Ledger.",
   "keywords": [
     "xrpl",
