@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/"
-title = "Kineses SDK"
+title = "Kinesis SDK"
 version = "1.0.0"
 id = "artifacts/showcase"
 router = "path"

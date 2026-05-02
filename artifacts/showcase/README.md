@@ -1,8 +1,8 @@
-# Kineses Showcase (by Blockcelerate)
+# Kinesis Showcase (by Blockcelerate)
 
-Marketing and documentation site for the Kineses SDK.
+Marketing and documentation site for the Kinesis SDK.
 
-![Kineses Logo](./public/logo.png)
+![Kinesis Logo](./public/logo.png)
 
 This app is a Vite + React + Tailwind v4 frontend in the monorepo, intended to showcase:
 - Product positioning and features
@@ -70,7 +70,7 @@ PORT=5173 BASE_PATH=/ pnpm --filter @workspace/showcase run serve
 
 ## Brand Notes
 
-- Primary public product name: `Kineses SDK`
+- Primary public product name: `Kinesis SDK`
 - Attribution: `by Blockcelerate`
 - Contact: `info@blockcelerate.net`
 

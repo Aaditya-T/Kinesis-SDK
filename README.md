@@ -1,4 +1,4 @@
-# Kineses SDK
+# Kinesis SDK
 
 > **DynamicNFT Gaming SDK for the XRP Ledger.** Mint, mutate, transfer, and burn game NFTs whose on-chain URI can be updated after issuance via `NFTokenModify`. Pluggable storage and IPFS adapters. Self-host the lib in Node.js or run the standalone HTTP server for engines that can't import JavaScript (Unity, Unreal, native mobile).
 

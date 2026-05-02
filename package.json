@@ -1,16 +1,16 @@
 {
-  "name": "kinessis-sdk",
+  "name": "kinesis-sdk",
   "version": "0.1.0",
   "license": "MIT",
   "private": true,
-  "description": "Kineses SDK monorepo — DynamicNFT gaming SDK for the XRPL with pluggable storage and IPFS adapters, plus a self-hostable HTTP server.",
-  "homepage": "https://github.com/Aaditya-T/Kinessis-SDK#readme",
+  "description": "Kinesis SDK monorepo — DynamicNFT gaming SDK for the XRPL with pluggable storage and IPFS adapters, plus a self-hostable HTTP server.",
+  "homepage": "https://github.com/Aaditya-T/Kinesis-SDK#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Aaditya-T/Kinessis-SDK.git"
+    "url": "git+https://github.com/Aaditya-T/Kinesis-SDK.git"
   },
   "bugs": {
-    "url": "https://github.com/Aaditya-T/Kinessis-SDK/issues"
+    "url": "https://github.com/Aaditya-T/Kinesis-SDK/issues"
   },
   "scripts": {
     "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",

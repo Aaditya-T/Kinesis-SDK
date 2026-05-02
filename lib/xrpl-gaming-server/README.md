@@ -1,6 +1,6 @@
 # xrpl-gaming-server
 
-A self-hostable HTTP/REST server that exposes the Kineses XRPL DynamicNFT Gaming SDK over a simple JSON API. Designed for game studios on **non-JavaScript platforms** (Unity, Unreal, native mobile) that cannot import the Node.js SDK directly — they call this server instead.
+A self-hostable HTTP/REST server that exposes the Kinesis XRPL DynamicNFT Gaming SDK over a simple JSON API. Designed for game studios on **non-JavaScript platforms** (Unity, Unreal, native mobile) that cannot import the Node.js SDK directly — they call this server instead.
 
 > Adapters and the CLI are a self-hosted concern. The future managed tier will provide a hosted endpoint with the same API contract.
 

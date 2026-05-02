@@ -136,7 +136,7 @@ const browserExample: CodeExample = {
 // these requests through your own backend instead.)
 
 const API_BASE = "https://api.kinesis.dev";
-const API_KEY  = import.meta.env.VITE_KINESES_API_KEY;
+const API_KEY  = import.meta.env.VITE_KINESIS_API_KEY;
 
 interface MintResponse {
   record: {

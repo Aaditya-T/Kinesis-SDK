@@ -1,7 +1,7 @@
 {
   "name": "xrpl-gaming-core",
-  "version": "0.1.1",
-  "description": "Core of the Kineses XRPL DynamicNFT Gaming SDK. Provides the XRPLGamingSDK class plus pluggable IDBAdapter and IIPFSAdapter interfaces for minting, updating, transferring, burning and querying mutable game NFTs on the XRP Ledger.",
+  "version": "0.2.0",
+  "description": "Core of the Kinesis XRPL DynamicNFT Gaming SDK. Provides the XRPLGamingSDK class plus pluggable IDBAdapter and IIPFSAdapter interfaces for minting, updating, transferring, burning and querying mutable game NFTs on the XRP Ledger.",
   "keywords": [
     "xrpl",
     "xrp",
@@ -9,19 +9,19 @@
     "dynamic-nft",
     "nftokenmodify",
     "gaming",
-    "kineses",
+    "kinesis",
     "sdk"
   ],
   "author": "Aaditya T",
   "license": "MIT",
-  "homepage": "https://github.com/Aaditya-T/Kinessis-SDK/tree/main/lib/xrpl-gaming-core#readme",
+  "homepage": "https://github.com/Aaditya-T/Kinesis-SDK/tree/main/lib/xrpl-gaming-core#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Aaditya-T/Kinessis-SDK.git",
+    "url": "git+https://github.com/Aaditya-T/Kinesis-SDK.git",
     "directory": "lib/xrpl-gaming-core"
   },
   "bugs": {
-    "url": "https://github.com/Aaditya-T/Kinessis-SDK/issues"
+    "url": "https://github.com/Aaditya-T/Kinesis-SDK/issues"
   },
   "publishConfig": {
     "access": "public"

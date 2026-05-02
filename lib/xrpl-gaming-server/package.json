@@ -1,7 +1,7 @@
 {
   "name": "xrpl-gaming-server",
-  "version": "0.1.1",
-  "description": "Self-hostable HTTP/REST server that exposes the Kineses XRPL DynamicNFT Gaming SDK over a JSON API. Designed for game studios on non-JavaScript platforms (Unity, Unreal, native mobile) that cannot import the Node.js SDK directly.",
+  "version": "0.2.0",
+  "description": "Self-hostable HTTP/REST server that exposes the Kinesis XRPL DynamicNFT Gaming SDK over a JSON API. Designed for game studios on non-JavaScript platforms (Unity, Unreal, native mobile) that cannot import the Node.js SDK directly.",
   "keywords": [
     "xrpl",
     "nft",
@@ -9,20 +9,20 @@
     "gaming",
     "rest",
     "express",
-    "kineses",
+    "kinesis",
     "sdk",
     "server"
   ],
   "author": "Aaditya T",
   "license": "MIT",
-  "homepage": "https://github.com/Aaditya-T/Kinessis-SDK/tree/main/lib/xrpl-gaming-server#readme",
+  "homepage": "https://github.com/Aaditya-T/Kinesis-SDK/tree/main/lib/xrpl-gaming-server#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Aaditya-T/Kinessis-SDK.git",
+    "url": "git+https://github.com/Aaditya-T/Kinesis-SDK.git",
     "directory": "lib/xrpl-gaming-server"
   },
   "bugs": {
-    "url": "https://github.com/Aaditya-T/Kinessis-SDK/issues"
+    "url": "https://github.com/Aaditya-T/Kinesis-SDK/issues"
   },
   "publishConfig": {
     "access": "public"
